@@ -181,15 +181,20 @@ return
 
 >!?::
 Send, ¿
+return
 
 >!!::
 Send, ¡
+return
 
 >!<::
 Send, «
+return
 
 >!>::
 Send, »
+return
 
 >!-::
 Send, —
+return
