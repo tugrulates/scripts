@@ -5,8 +5,9 @@
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
-RCtrl::RWin
-RWin::RCtrl
+RAlt::RCtrl
+RCtrl::RAlt
 LCtrl::LWin
-LWin::LCtrl
+LWin::LAlt
+LAlt::LCtrl
 
