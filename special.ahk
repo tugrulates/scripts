@@ -1,4 +1,4 @@
-﻿; Swaps Win and Ctrl keys so it's more like Mac on Windows.
+; Swaps Win and Ctrl keys so it's more like Mac on Windows.
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ; #Warn  ; Enable warnings to assist with detecting common errors.
