@@ -1,3 +1,5 @@
+#SingleInstance Force
+
 ; Quick combos for non-English letters.
 ; Left Alt is for Turkish, e.g. Left Alt + U -> Ü
 ; Right Alt is for Spanish, e.g. Right Alt + U -> Ú
