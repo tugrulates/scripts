@@ -1,20 +1,37 @@
 ; Cookie Clicker helper
 
-#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
-SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-
+#NoEnv
+#Warn
 #InstallMouseHook
+#SingleInstance Force
 
+SendMode Input
+SetDefaultMouseSpeed, 100
+SetWorkingDir %A_ScriptDir%
 SetTitleMatchMode, 2
-#IfWinActive, ahk_exe Cookie Clicker.exe
 
-; Right click
-; toggle mode if caps lock is on, otherwise press to spam
+
+; Timer: if caps lock is on, searches for golden cookie and click if found
+#Persistent
+SetTimer, SearchGoldenCookie, 250
+return
+SearchGoldenCookie:
+	if !WinActive("ahk_exe Cookie Clicker.exe") or !GetKeyState("CapsLock","T") {
+		return
+	}
+	ImageSearch, Px, Py, 0, 0, A_ScreenWidth, A_ScreenHeight, cookie.bmp
+    if !ErrorLevel {
+		Click, %Px% %Py%
+		MouseMove, 100, 100
+	}
+	return
+
+
+; Right click: toggle mode if caps lock is on, otherwise press to spam
+#IfWinActive, ahk_exe Cookie Clicker.exe
 RButton::
 	while GetKeyState("RButton","P") or GetKeyState("CapsLock","T") {
-		if !WinActive(Cookie Clicker) or GetKeyState("LButton","P") {
+		if GetKeyState("LButton","P") {
 			return
 		}
 		Click, 4
@@ -22,12 +39,14 @@ RButton::
 	}
 	return
 
-; Middle click
-; reload save from clipboard
+
+; Middle click: reload save from clipboard
+#IfWinActive, ahk_exe Cookie Clicker.exe
 MButton::
+	if GetKeyState("LButton","P") {
+		return
+	}
 	Send, ^o
 	Send, ^v
 	Send, {Enter}
 	return
-
-#IfWinActive
