@@ -22,8 +22,9 @@ SearchGoldenCookie:
   }
   ImageSearch, Px, Py, 0, 0, A_ScreenWidth, A_ScreenHeight, cookie.bmp
   if !ErrorLevel {
+    MouseGetPos, Mx, My
     Click, %Px% %Py%
-    MouseMove, 100, 100
+    MouseMove, %Mx%, %My%
   }
 return
 
