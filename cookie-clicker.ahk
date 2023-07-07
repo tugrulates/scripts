@@ -13,18 +13,19 @@ SetTitleMatchMode, 2
 
 ; Timer: if caps lock is on, searches for golden cookie and click if found
 #Persistent
-SetTimer, SearchGoldenCookie, 250
+SetTimer, SearchGoldenCookie, 25
 return
 
 SearchGoldenCookie:
   if !WinActive("ahk_exe Cookie Clicker.exe") or !GetKeyState("CapsLock","T") {
     return
   }
-  ImageSearch, Px, Py, 0, 0, A_ScreenWidth, A_ScreenHeight, cookie.bmp
+  ImageSearch, Px, Py, 0, 0, A_ScreenWidth, A_ScreenHeight, *32 cookie.png
   if !ErrorLevel {
     MouseGetPos, Mx, My
     Click, %Px% %Py%
     MouseMove, %Mx%, %My%
+    Sleep 100
   }
 return
 
