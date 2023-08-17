@@ -1,1 +1,1 @@
-AutoHotkey scripts for Windows.
+Various scripts.
