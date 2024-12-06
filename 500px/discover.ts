@@ -13,6 +13,8 @@
  * }
  */
 
+const SKIP = [/^\/vcg-/];
+
 import { parseArgs } from "jsr:@std/cli/parse-args";
 import { toSnakeCase } from "jsr:@std/text";
 import { CATEGORIES, Category, FiveHundredPxClient } from "./client.ts";
@@ -32,7 +34,9 @@ if (import.meta.main) {
 
   const client = new FiveHundredPxClient();
   const photos = await client.getForYouFeed({ categories, limit: 1000 });
-  const users = photos.map((photo) => photo.photographer.canonicalPath);
+  const users = photos.map((photo) => photo.photographer.canonicalPath).filter(
+    (user) => !SKIP.some((re) => re.test(user)),
+  );
 
   const result = { discover: Array.from(new Set(users)) };
   console.log(JSON.stringify(result, undefined, 2));
