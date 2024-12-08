@@ -18,7 +18,7 @@ const REACTIONS: Record<Reaction, string> = {
   high_five: "🙏",
   support: "💪",
   cheer: "💯",
-  love: "❤️",
+  love: "💖",
   like: "👍",
   haha: "😂",
 };
@@ -29,9 +29,9 @@ function getReaction(card: FeedCard): Reaction {
   if (card.cardType === "SHARE_SENTENCE_OFFER") return "like";
   const number = card.body.match(/\d+/);
   if (number && Number(number[0]) % 100 === 0) return "cheer";
-  if (card.body.includes("Diamond")) return "love";
+  if (card.triggerType === "top_three") return "love";
   if (card.triggerType === "resurrection") return "high_five";
-  // if (card.triggerType === "monthly_quest") return "support";
+  if (card.triggerType === "monthly_goal") return "support";
   if (card.defaultReaction !== null) return card.defaultReaction;
   return "cheer";
 }

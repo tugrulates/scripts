@@ -58,9 +58,12 @@ export interface FeedCard {
   triggerType?:
     | "friends_quest_complete"
     | "friends_quest_streak"
+    | "league_promotion"
+    | "monthly_goal"
     | "resurrection"
     | "sage"
     | "streak_milestone"
+    | "top_three"
     | "x_lesson";
   userId: number;
 }
