@@ -29,7 +29,9 @@ function getReaction(card: FeedCard): Reaction {
   if (card.cardType === "SHARE_SENTENCE_OFFER") return "like";
   const number = card.body.match(/\d+/);
   if (number && Number(number[0]) % 100 === 0) return "cheer";
-  if (card.triggerType === "top_three") return "love";
+  if (
+    card.triggerType === "top_three" || card.triggerType === "league_promotion"
+  ) return "love";
   if (card.triggerType === "resurrection") return "high_five";
   if (card.triggerType === "monthly_goal") return "support";
   if (card.defaultReaction !== null) return card.defaultReaction;
