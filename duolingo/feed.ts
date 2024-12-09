@@ -1,7 +1,7 @@
 /** Prints the current feed, and optionally and jovially engages with it.
  *
  * Usage:
- *  500px/feed.ts --username <username> --token <token> [--engage] [--json]
+ *  duolingo/feed.ts --username <username> --token <token> [--engage] [--json]
  *
  * Output:
  *   🎉 John Doe Completed a 30 day streak!
@@ -10,18 +10,9 @@
 
 import { pooledMap } from "jsr:@std/async";
 import { parseArgs } from "jsr:@std/cli";
-import { DuolingoClient, FeedCard, Friend, Reaction } from "./client.ts";
-
-const CONCURRENCY = 1;
-const REACTIONS: Record<Reaction, string> = {
-  congrats: "🎉",
-  high_five: "🙏",
-  support: "💪",
-  cheer: "💯",
-  love: "💖",
-  like: "👍",
-  haha: "😂",
-};
+import { CONCURRENCY, DuolingoClient } from "./client.ts";
+import { REACTIONS } from "./data.ts";
+import { FeedCard, Friend, Reaction } from "./types.ts";
 
 /** Returns the reaction on the card, or picks an appripriate one. */
 function getReaction(card: FeedCard): Reaction {
