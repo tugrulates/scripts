@@ -17,17 +17,16 @@
  */
 
 import { parseArgs } from "jsr:@std/cli";
+import { checkRequired } from "../common/cli.ts";
 import { FiveHundredPxClient } from "./client.ts";
 
 if (import.meta.main) {
-  const args = parseArgs(Deno.args, {
+  const spec = {
     string: ["username"],
     boolean: ["json"],
-  });
-  if (!args.username) {
-    console.error(`Usage: follows.ts --username <username> [--json]`);
-    Deno.exit(1);
-  }
+  } as const;
+  const args = parseArgs(Deno.args, spec);
+  checkRequired(spec, "username", args.username);
 
   const client = new FiveHundredPxClient();
   const [following, followers] = await Promise.all([

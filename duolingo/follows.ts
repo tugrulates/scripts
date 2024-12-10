@@ -7,7 +7,7 @@
  *   👤 Following 10 people.
  *   👤 Followed by 10 people.
  *
- * Output:
+ * JSON:
  *   {
  *     "following": [ { "userId": 123456, "username": "example" } ],
  *     "followers": [ { "userId": 123456, "username": "example" } ],

@@ -1,36 +1,29 @@
 /** Prints a list of users to engage with.
  *
  * Usage:
- *  500px/discover.ts
- *  500px/discover.ts --animals
- *  500px/discover.ts --landscapes --city-and-architecture
+ *   500px/discover.ts [--categories...] [--json]
+ *   500px/discover.ts --animals
+ *   500px/discover.ts --landscapes --city-and-architecture
  *
  * Output:
- * {
- *   "discover": [
- *     "/tugrulates"
- *   ]
- * }
+ *   👤 /user1
+ *   👤 /user2
+ *   👤 /user3
  */
 
 const SKIP = [/^\/vcg-/];
 
 import { parseArgs } from "jsr:@std/cli/parse-args";
-import { toSnakeCase } from "jsr:@std/text";
-import { CATEGORIES, Category, FiveHundredPxClient } from "./client.ts";
+import { printTable } from "../common/display.ts";
+import { FiveHundredPxClient } from "./client.ts";
+import { CATEGORIES } from "./data.ts";
 
 if (import.meta.main) {
-  const categories: Category[] = [];
-  parseArgs(Deno.args, {
-    unknown: (option) => {
-      const name = toSnakeCase(option).toUpperCase();
-      if (Object.keys(CATEGORIES).includes(name)) {
-        categories.push(CATEGORIES[name as keyof typeof CATEGORIES]);
-        return true;
-      }
-      throw new Error(`Unknown option: ${option}`);
-    },
-  });
+  const spec = {
+    boolean: [...Object.values(CATEGORIES).map((c) => c.arg), "json"],
+  } as const;
+  const args = parseArgs(Deno.args, spec);
+  const categories = Object.values(CATEGORIES).filter((c) => args[c.arg]);
 
   const client = new FiveHundredPxClient();
   const photos = await client.getForYouFeed({ categories, limit: 1000 });
@@ -39,5 +32,6 @@ if (import.meta.main) {
   );
 
   const result = { discover: Array.from(new Set(users)) };
-  console.log(JSON.stringify(result, undefined, 2));
+  if (args.json) console.log(JSON.stringify(result, undefined, 2));
+  else printTable(result.discover.map((user) => ["👤", user]));
 }

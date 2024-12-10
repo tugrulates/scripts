@@ -62,7 +62,10 @@ export class GraphQLClient {
       const data = await this.query<T>(queryPaths, { ...variables, cursor });
       nodes = nodes.concat(getEdges(data).edges.map((edge) => edge.node));
       cursor = getCursor(data);
-    } while (cursor && (!variables.limit || nodes.length < variables.limit));
+    } while (
+      cursor &&
+      (variables.limit === undefined || nodes.length < variables.limit)
+    );
     return nodes;
   }
 }

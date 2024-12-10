@@ -4,38 +4,40 @@
  *  500px/photos.ts --username <username> [--json]
  *
  * Output:
- *  🏞️ Coordinating Phoenix                📈91.1     👁️1085   ❤️95
- *  🏞️ Architectural Lasagna               📈91.9     👁️1176   ❤️142
+ *   🏞️ Coordinating Phoenix  📈91.1 👁️1085 ❤️95
+ *   🏞️ Architectural Lasagna 📈91.9 👁️1176 ❤️142
  *
  * CSV:
  *   500px/photos.ts --username <username> --json | jq -f 500px/photos.csv.jq
  */
 
 import { parseArgs } from "jsr:@std/cli";
-import { FiveHundredPxClient, Photo } from "./client.ts";
+import { checkRequired } from "../common/cli.ts";
+import { printTable, Row } from "../common/display.ts";
+import { FiveHundredPxClient } from "./client.ts";
+import { Photo } from "./types.ts";
 
-/** Returns the display summary of the photo. */
-function getSummary(photo: Photo): string {
-  const title = `🏞️  ${photo.name}`.padEnd(40);
-  const pulse = `📈${photo.pulse.highest}`.padEnd(10);
-  const likes = `❤️ ${photo.likedByUsers.totalCount}`.padEnd(10);
-  const views = `👁️ ${photo.timesViewed}`.padEnd(10);
-  return `${title} ${pulse} ${views} ${likes}`;
+/** Returns the display row of the photo. */
+function getRow(photo: Photo): Row {
+  return [
+    `🏞️  ${photo.name}`,
+    `📈${photo.pulse.highest}`,
+    `❤️ ${photo.likedByUsers.totalCount}`,
+    `👁️ ${photo.timesViewed}`,
+  ];
 }
 
 if (import.meta.main) {
-  const args = parseArgs(Deno.args, {
+  const spec = {
     string: ["username"],
     boolean: ["json"],
-  });
-  if (!args.username) {
-    console.error(`Usage: photos.ts --username <username> [--json]`);
-    Deno.exit(1);
-  }
+  } as const;
+  const args = parseArgs(Deno.args, spec);
+  checkRequired(spec, "username", args.username);
 
   const client = new FiveHundredPxClient();
   const photos = await client.getPhotos(args.username);
 
   if (args.json) console.log(JSON.stringify(photos, undefined, 2));
-  else photos.forEach((photo) => console.log(getSummary(photo)));
+  else printTable(photos.map(getRow));
 }

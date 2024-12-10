@@ -25,15 +25,16 @@ export function checkRequired<T>(
 function getUsage(spec: Spec): string {
   const module = basename(dirname(Deno.mainModule));
   const script = basename(Deno.mainModule);
-  const strings =
-    (Array.isArray(spec.string) ? spec.string : [spec.string])?.map((
+  const strings = spec.string
+    ? (Array.isArray(spec.string) ? spec.string : [spec.string]).map((
       name,
-    ) => maybeOptional(spec, name, `--${name} <${name}>`)) ?? [];
-  const booleans =
-    (Array.isArray(spec.boolean) ? spec.boolean : [spec.boolean])?.map((
+    ) => maybeOptional(spec, name, `--${name} <${name}>`))
+    : [];
+  const booleans = spec.boolean
+    ? (Array.isArray(spec.boolean) ? spec.boolean : [spec.boolean])?.map((
       name,
-    ) => maybeOptional(spec, name, `--${name}`)) ??
-      [];
+    ) => maybeOptional(spec, name, `--${name}`))
+    : [];
   return `${module}/${script} ${[...strings, ...booleans].join(" ")}`;
 }
 

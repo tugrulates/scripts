@@ -1,16 +1,24 @@
+/** @module common/display */
+
 import { unicodeWidth } from "jsr:@std/cli";
 import { isatty } from "node:tty";
 import process from "npm:process";
 import terminalLink from "npm:terminal-link";
 
+/** Table row type. */
+export type Row = Cell[];
+
+/** Table cell type, basic or formatted string. */
+export type Cell = string | RichCell;
+
+/** Rich cell type with formatting, and an option clickable link. */
 interface RichCell {
   text: string;
   align: "left" | "right";
   url: string | null;
 }
-export type Cell = string | RichCell;
-export type Row = Cell[];
 
+/** Print a well formatted table to stdout. */
 export function printTable(rows: Row[]): void {
   const widths = rows.reduce((widths: number[], row: Row) => {
     for (const [i, cell] of row.entries()) {
@@ -30,15 +38,18 @@ export function printTable(rows: Row[]): void {
   }
 }
 
+/** A cell with a clickable link. */
 export function link(text: string, url?: string): Cell {
   return url !== undefined ? { text, url, align: "left" } : text;
 }
 
+/** A cell aligned to the right. */
 export function right(text: Cell): RichCell {
   const cell = typeof text === "string" ? { text, url: null } : text;
   return { ...cell, align: "right" };
 }
 
+/** Render a cell, optionally padding to a width. */
 function render(cell: Cell, links: boolean, width?: number): string {
   const {
     text,

@@ -1,40 +1,7 @@
+import { LANGUAGES, LEAGUES, REACTIONS } from "./data.ts";
+
 /** Language code. */
-export type LanguageCode =
-  | "ar"
-  | "ca"
-  | "cs"
-  | "cy"
-  | "da"
-  | "de"
-  | "dn"
-  | "el"
-  | "en"
-  | "eo"
-  | "es"
-  | "fi"
-  | "fr"
-  | "ga"
-  | "he"
-  | "hi"
-  | "hu"
-  | "id"
-  | "it"
-  | "ja"
-  | "ko"
-  | "ms"
-  | "nb"
-  | "nl"
-  | "pl"
-  | "pt"
-  | "ro"
-  | "ru"
-  | "sv"
-  | "sw"
-  | "th"
-  | "tr"
-  | "uk"
-  | "vi"
-  | "zh";
+export type LanguageCode = keyof typeof LANGUAGES;
 
 /** Another user, like a follower. */
 export interface Friend {
@@ -53,14 +20,7 @@ export interface Friend {
 }
 
 /** A reaction to a feed event. */
-export type Reaction =
-  | "congrats"
-  | "high_five"
-  | "support"
-  | "cheer"
-  | "love"
-  | "like"
-  | "haha";
+export type Reaction = keyof typeof REACTIONS;
 
 /** A feed card, like a milestone. */
 export interface FeedCard {
@@ -104,7 +64,7 @@ export interface FeedCard {
 
 export interface League {
   creation_date: string;
-  tier: LeagueTier;
+  tier: keyof typeof LEAGUES;
   rankings: LeagueUser[];
 }
 
@@ -129,6 +89,3 @@ export interface LeagueUser {
   "streak_extended_today": boolean;
   "user_id": number;
 }
-
-/** Number tier of a league. */
-export type LeagueTier = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;

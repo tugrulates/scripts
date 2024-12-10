@@ -1,186 +1,183 @@
 /** @module duolingo/data */
 
-import { LanguageCode, LeagueTier, Reaction } from "./types.ts";
-
 /** Language codes, names, and flags. */
-export const LANGUAGES: Record<LanguageCode, { name: string; emoji: string }> =
-  {
-    ar: {
-      name: "Arabic",
-      emoji: "🇸🇦",
-    },
-    ca: {
-      name: "Catalan",
-      emoji: "🇪🇸",
-    },
-    cs: {
-      name: "Czech",
-      emoji: "🇨🇿",
-    },
-    cy: {
-      name: "Welsh",
-      emoji: "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
-    },
-    da: {
-      name: "Danish",
-      emoji: "🇩🇰",
-    },
-    de: {
-      name: "German",
-      emoji: "🇩🇪",
-    },
-    dn: {
-      name: "Dutch",
-      emoji: "🇳🇱",
-    },
-    el: {
-      name: "Greek",
-      emoji: "🇬🇷",
-    },
-    en: {
-      name: "English",
-      emoji: "🇺🇸",
-    },
-    eo: {
-      name: "Esperanto",
-      emoji: "🌍",
-    },
-    es: {
-      name: "Spanish",
-      emoji: "🇪🇸",
-    },
-    fi: {
-      name: "Finnish",
-      emoji: "🇫🇮",
-    },
-    fr: {
-      name: "French",
-      emoji: "🇫🇷",
-    },
-    ga: {
-      name: "Irish",
-      emoji: "🇮🇪",
-    },
-    gd: {
-      name: "Scottish Gaelic",
-      emoji: "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
-    },
-    gn: {
-      name: "Guarani",
-      emoji: "🇵🇾",
-    },
-    he: {
-      name: "Hebrew",
-      emoji: "🇮🇱",
-    },
-    hi: {
-      name: "Hindi",
-      emoji: "🇮🇳",
-    },
-    ht: {
-      name: "Haitian Creole",
-      emoji: "🇭🇹",
-    },
-    hu: {
-      name: "Hungarian",
-      emoji: "🇭🇺",
-    },
-    hv: {
-      name: "High Valyrian",
-      emoji: "🐉",
-    },
-    hw: {
-      name: "Hawaiian",
-      emoji: "🌺",
-    },
-    id: {
-      name: "Indonesian",
-      emoji: "🇮🇩",
-    },
-    it: {
-      name: "Italian",
-      emoji: "🇮🇹",
-    },
-    ja: {
-      name: "Japanese",
-      emoji: "🇯🇵",
-    },
-    kl: {
-      name: "Klingon",
-      emoji: "🖖",
-    },
-    ko: {
-      name: "Korean",
-      emoji: "🇰🇷",
-    },
-    la: {
-      name: "Latin",
-      emoji: "🏛️",
-    },
-    nb: {
-      name: "Norwegian (Bokmål)",
-      emoji: "🇳🇴",
-    },
-    nv: {
-      name: "Navajo",
-      emoji: "🏜️",
-    },
-    pl: {
-      name: "Polish",
-      emoji: "🇵🇱",
-    },
-    pt: {
-      name: "Portuguese",
-      emoji: "🇧🇷",
-    },
-    ro: {
-      name: "Romanian",
-      emoji: "🇷🇴",
-    },
-    ru: {
-      name: "Russian",
-      emoji: "🇷🇺",
-    },
-    sv: {
-      name: "Swedish",
-      emoji: "🇸🇪",
-    },
-    sw: {
-      name: "Swahili",
-      emoji: "🇰🇪",
-    },
-    tr: {
-      name: "Turkish",
-      emoji: "🇹🇷",
-    },
-    uk: {
-      name: "Ukrainian",
-      emoji: "🇺🇦",
-    },
-    vi: {
-      name: "Vietnamese",
-      emoji: "🇻🇳",
-    },
-    yi: {
-      name: "Yiddish",
-      emoji: "🕎",
-    },
-    zc: {
-      name: "Chinese (Cantonese)",
-      emoji: "🇭🇰",
-    },
-    zs: {
-      name: "Chinese",
-      emoji: "🇨🇳",
-    },
-    zu: {
-      name: "Zulu",
-      emoji: "🇿🇦",
-    },
-  };
+export const LANGUAGES = {
+  ar: {
+    name: "Arabic",
+    emoji: "🇸🇦",
+  },
+  ca: {
+    name: "Catalan",
+    emoji: "🇪🇸",
+  },
+  cs: {
+    name: "Czech",
+    emoji: "🇨🇿",
+  },
+  cy: {
+    name: "Welsh",
+    emoji: "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
+  },
+  da: {
+    name: "Danish",
+    emoji: "🇩🇰",
+  },
+  de: {
+    name: "German",
+    emoji: "🇩🇪",
+  },
+  dn: {
+    name: "Dutch",
+    emoji: "🇳🇱",
+  },
+  el: {
+    name: "Greek",
+    emoji: "🇬🇷",
+  },
+  en: {
+    name: "English",
+    emoji: "🇺🇸",
+  },
+  eo: {
+    name: "Esperanto",
+    emoji: "🌍",
+  },
+  es: {
+    name: "Spanish",
+    emoji: "🇪🇸",
+  },
+  fi: {
+    name: "Finnish",
+    emoji: "🇫🇮",
+  },
+  fr: {
+    name: "French",
+    emoji: "🇫🇷",
+  },
+  ga: {
+    name: "Irish",
+    emoji: "🇮🇪",
+  },
+  gd: {
+    name: "Scottish Gaelic",
+    emoji: "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+  },
+  gn: {
+    name: "Guarani",
+    emoji: "🇵🇾",
+  },
+  he: {
+    name: "Hebrew",
+    emoji: "🇮🇱",
+  },
+  hi: {
+    name: "Hindi",
+    emoji: "🇮🇳",
+  },
+  ht: {
+    name: "Haitian Creole",
+    emoji: "🇭🇹",
+  },
+  hu: {
+    name: "Hungarian",
+    emoji: "🇭🇺",
+  },
+  hv: {
+    name: "High Valyrian",
+    emoji: "🐉",
+  },
+  hw: {
+    name: "Hawaiian",
+    emoji: "🌺",
+  },
+  id: {
+    name: "Indonesian",
+    emoji: "🇮🇩",
+  },
+  it: {
+    name: "Italian",
+    emoji: "🇮🇹",
+  },
+  ja: {
+    name: "Japanese",
+    emoji: "🇯🇵",
+  },
+  kl: {
+    name: "Klingon",
+    emoji: "🖖",
+  },
+  ko: {
+    name: "Korean",
+    emoji: "🇰🇷",
+  },
+  la: {
+    name: "Latin",
+    emoji: "🏛️",
+  },
+  nb: {
+    name: "Norwegian (Bokmål)",
+    emoji: "🇳🇴",
+  },
+  nv: {
+    name: "Navajo",
+    emoji: "🏜️",
+  },
+  pl: {
+    name: "Polish",
+    emoji: "🇵🇱",
+  },
+  pt: {
+    name: "Portuguese",
+    emoji: "🇧🇷",
+  },
+  ro: {
+    name: "Romanian",
+    emoji: "🇷🇴",
+  },
+  ru: {
+    name: "Russian",
+    emoji: "🇷🇺",
+  },
+  sv: {
+    name: "Swedish",
+    emoji: "🇸🇪",
+  },
+  sw: {
+    name: "Swahili",
+    emoji: "🇰🇪",
+  },
+  tr: {
+    name: "Turkish",
+    emoji: "🇹🇷",
+  },
+  uk: {
+    name: "Ukrainian",
+    emoji: "🇺🇦",
+  },
+  vi: {
+    name: "Vietnamese",
+    emoji: "🇻🇳",
+  },
+  yi: {
+    name: "Yiddish",
+    emoji: "🕎",
+  },
+  zc: {
+    name: "Chinese (Cantonese)",
+    emoji: "🇭🇰",
+  },
+  zs: {
+    name: "Chinese",
+    emoji: "🇨🇳",
+  },
+  zu: {
+    name: "Zulu",
+    emoji: "🇿🇦",
+  },
+} as const;
 
 /** Reactions and their emojis. */
-export const REACTIONS: Record<Reaction, string> = {
+export const REACTIONS = {
   congrats: "🎉",
   high_five: "🙏",
   support: "💪",
@@ -188,10 +185,10 @@ export const REACTIONS: Record<Reaction, string> = {
   love: "💖",
   like: "👍",
   haha: "😂",
-};
+} as const;
 
 /** Leagues, their names, and emojis. */
-export const LEAGUES: Record<LeagueTier, { name: string; emoji: string }> = {
+export const LEAGUES = {
   0: {
     name: "Bronze League",
     emoji: "🧡",
@@ -236,4 +233,4 @@ export const LEAGUES: Record<LeagueTier, { name: string; emoji: string }> = {
     name: "Tournament",
     emoji: "🏆",
   },
-};
+} as const;
