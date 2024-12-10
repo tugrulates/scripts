@@ -1,5 +1,5 @@
 {
   "tasks": {
-    "compile": "deno compile -A -o=$HOME/.scripts/ exif.ts"
+    "compile": "deno compile -RWE --allow-run=exiftool --no-prompt -o=$HOME/.scripts/ exif.ts"
   }
 }
