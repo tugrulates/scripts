@@ -25,7 +25,14 @@ export function getRequired(
     console.error(`Usage: ${getUsage(spec)}`);
     Deno.exit(1);
   }
-  return args._ as [string, ...string[]];
+  return getOptional(args) as [string, ...string[]];
+}
+
+/** Get all arguments with unknown count. */
+export function getOptional(
+  args: { _: (string | number)[] },
+): string[] {
+  return args._.map((arg) => arg.toString());
 }
 
 /** Returns the usage string for the script. */
