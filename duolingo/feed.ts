@@ -1,7 +1,7 @@
 /** Prints the current feed, and optionally and jovially engages with it.
  *
  * Usage:
- *  duolingo/feed.ts --username <username> --token <token> [--engage] [--json]
+ *  duolingo/feed.ts <username> <token> [--engage] [--json]
  *
  * Output:
  *   🎉 John Doe Completed a 30 day streak!
@@ -9,7 +9,7 @@
  */
 
 import { parseArgs } from "jsr:@std/cli";
-import { checkRequired } from "../common/cli.ts";
+import { getRequired } from "../common/cli.ts";
 import { pool } from "../common/pool.ts";
 import { DuolingoClient } from "./client.ts";
 import { REACTIONS } from "./data.ts";
@@ -70,15 +70,13 @@ async function engage(
 
 if (import.meta.main) {
   const spec = {
-    required: ["username", "token"],
-    string: ["username", "token"],
+    _: ["username", "token"],
     boolean: ["engage", "json"],
   } as const;
   const args = parseArgs(Deno.args, spec);
-  checkRequired(spec, "username", args.username);
-  checkRequired(spec, "token", args.token);
+  const [username, token] = getRequired(args, spec);
 
-  const client = new DuolingoClient(args.username, args.token);
+  const client = new DuolingoClient(username, token);
   const followers = await client.getFollowers();
   const feed = await client.getFeed();
   if (args.json) console.log(JSON.stringify(feed, undefined, 2));

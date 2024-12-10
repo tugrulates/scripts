@@ -1,7 +1,7 @@
 /** Prints follow information.
  *
  * Usage:
- *   500px/follows.ts --username <username> --token <token> [--json]
+ *   500px/follows.ts <username> [--json]
  *
  * Output:
  *   👤 Following 212 people.
@@ -17,21 +17,18 @@
  */
 
 import { parseArgs } from "jsr:@std/cli";
-import { checkRequired } from "../common/cli.ts";
+import { getRequired } from "../common/cli.ts";
 import { FiveHundredPxClient } from "./client.ts";
 
 if (import.meta.main) {
-  const spec = {
-    string: ["username"],
-    boolean: ["json"],
-  } as const;
+  const spec = { _: ["username"], boolean: ["json"] } as const;
   const args = parseArgs(Deno.args, spec);
-  checkRequired(spec, "username", args.username);
+  const [username] = getRequired(args, spec);
 
   const client = new FiveHundredPxClient();
   const [following, followers] = await Promise.all([
-    client.getFollowing(args.username),
-    client.getFollowers(args.username),
+    client.getFollowing(username),
+    client.getFollowers(username),
   ]);
   const result = {
     following,

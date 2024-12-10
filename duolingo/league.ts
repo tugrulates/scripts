@@ -1,7 +1,7 @@
 /** Prints the current league status, and optionally follows leaguemates.
  *
  * Usage:
- *   Usage: duolingo/league.ts --username <username> --token <token> [--json] [--follow]
+ *   Usage: duolingo/league.ts <username> <token> [--json] [--follow]
  *
  * Output:
  *   🩷 Pearl League
@@ -11,7 +11,7 @@
  */
 
 import { parseArgs } from "jsr:@std/cli";
-import { checkRequired } from "../common/cli.ts";
+import { getRequired } from "../common/cli.ts";
 import { printTable, right, Row } from "../common/display.ts";
 import { pool } from "../common/pool.ts";
 import { DuolingoClient } from "./client.ts";
@@ -61,15 +61,13 @@ async function followUsers(
 
 if (import.meta.main) {
   const spec = {
-    required: ["username", "token"],
-    string: ["username", "token"],
+    _: ["username", "token"],
     boolean: ["follow", "json"],
   } as const;
   const args = parseArgs(Deno.args, spec);
-  checkRequired(spec, "username", args.username);
-  checkRequired(spec, "token", args.token);
+  const [username, token] = getRequired(args, spec);
 
-  const client = new DuolingoClient(args.username, args.token);
+  const client = new DuolingoClient(username, token);
   const league = await client.getLeague();
   const tier = LEAGUES[league.tier];
   if (args.follow) await followUsers(client, league.rankings);

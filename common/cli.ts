@@ -5,41 +5,45 @@ import { basename, dirname } from "jsr:@std/path";
 
 /** Arg parser type spec. */
 export type Spec = ParseOptions & {
-  required?: readonly string[];
+  _?: ReadonlyArray<Extract<string, string>>;
 };
 
-/** Checks if a required argument is missing. */
-export function checkRequired<T>(
+/** Get required arguments with exact count. */
+export function getRequired(
+  args: { _: (string | number)[] },
   spec: Spec,
-  name: string,
-  value: T,
-): asserts value is NonNullable<T> {
-  if (value === undefined) {
-    console.error(`Missing required argument: ${name}`);
+): [string, ...string[]] {
+  const requiredCount = spec._?.length ?? 0;
+  if (args._.length > requiredCount) {
+    console.error(`Too many arguments.`);
+    console.error(`Usage: ${getUsage(spec)}`);
+    Deno.exit(1);
+  } else if (args._.length < requiredCount) {
+    for (const name of (spec._ ?? []).slice(args._.length)) {
+      console.error(`Missing required argument: ${name}`);
+    }
     console.error(`Usage: ${getUsage(spec)}`);
     Deno.exit(1);
   }
+  return args._ as [string, ...string[]];
 }
 
 /** Returns the usage string for the script. */
 function getUsage(spec: Spec): string {
   const module = basename(dirname(Deno.mainModule));
   const script = basename(Deno.mainModule);
+  const required = spec._ ? spec._.map((name) => `<${name}>`) : [];
   const strings = spec.string
-    ? (Array.isArray(spec.string) ? spec.string : [spec.string]).map((
-      name,
-    ) => maybeOptional(spec, name, `--${name} <${name}>`))
+    ? (Array.isArray(spec.string) ? spec.string : [spec.string]).map(
+      (name) => `[--${name} <${name}>]`,
+    )
     : [];
   const booleans = spec.boolean
-    ? (Array.isArray(spec.boolean) ? spec.boolean : [spec.boolean])?.map((
-      name,
-    ) => maybeOptional(spec, name, `--${name}`))
+    ? (Array.isArray(spec.boolean) ? spec.boolean : [spec.boolean])?.map(
+      (name) => `[--${name}]`,
+    )
     : [];
-  return `${module}/${script} ${[...strings, ...booleans].join(" ")}`;
-}
-
-/** Returns the usage string for an argument, wrapped in brackets if optional. */
-function maybeOptional(spec: Spec, name: string, usage: string) {
-  if (spec.required?.includes(name)) return usage;
-  return `[${usage}]`;
+  return `${module}/${script} ${
+    [...required, ...strings, ...booleans].join(" ")
+  }`;
 }

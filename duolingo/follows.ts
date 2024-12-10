@@ -1,7 +1,7 @@
 /** Prints follow information, and optionally follows or unfollows users
  *
  * Usage:
- *   duolingo/follows.ts --username <username> --token <token> [--follow] [--unfollow] [--json]
+ *   duolingo/follows.ts <username> <token> [--follow] [--unfollow] [--json]
  *
  * Output:
  *   👤 Following 10 people.
@@ -17,7 +17,7 @@
  */
 
 import { parseArgs } from "jsr:@std/cli";
-import { checkRequired } from "../common/cli.ts";
+import { getRequired } from "../common/cli.ts";
 import { pool } from "../common/pool.ts";
 import { DuolingoClient } from "./client.ts";
 
@@ -40,16 +40,13 @@ async function getFollows(client: DuolingoClient) {
 
 if (import.meta.main) {
   const spec = {
-    required: ["username", "token"],
-    string: ["username", "token"],
+    _: ["username", "token"],
     boolean: ["follow", "unfollow", "json"],
   } as const;
   const args = parseArgs(Deno.args, spec);
-  checkRequired(spec, "username", args.username);
-  checkRequired(spec, "token", args.token);
-  console.log(args.test);
+  const [username, token] = getRequired(args, spec);
 
-  const client = new DuolingoClient(args.username, args.token);
+  const client = new DuolingoClient(username, token);
   let result = await getFollows(client);
 
   if (args.follow || args.unfollow) {
