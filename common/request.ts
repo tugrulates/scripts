@@ -30,6 +30,18 @@ export class JsonClient {
     });
     return await response.json();
   }
+
+  /** Make a delete request and receive JSON data. */
+  async delete<T>(path: string): Promise<T> {
+    const { response } = await request<T>(`${this.url}${path}`, {
+      method: "DELETE",
+      headers: {
+        "Accept": "application/json; charset=UTF-8",
+      },
+      token: this.options.token,
+    });
+    return await response.json();
+  }
 }
 
 const TOO_MANY_REQUESTS = 429;

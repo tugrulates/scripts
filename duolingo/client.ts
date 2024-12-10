@@ -3,8 +3,6 @@
 import { JsonClient } from "../common/request.ts";
 import { FeedCard, Friend, League, Reaction } from "./types.ts";
 
-export const CONCURRENCY = 1;
-
 /** Client for Duolingo API. */
 export class DuolingoClient {
   private coreClient: JsonClient;
@@ -82,7 +80,17 @@ export class DuolingoClient {
     const me = await this.getUserId();
     await this.coreClient.post(
       `/2017-06-30/friends/users/${me}/follow/${userId}`,
-      { component: "kudos_feed" },
+      {},
+    );
+  }
+
+  /** Unfollows a user. */
+  async unfollowUser(
+    userId: number,
+  ): Promise<void> {
+    const me = await this.getUserId();
+    await this.coreClient.delete(
+      `/2017-06-30/friends/users/${me}/follow/${userId}`,
     );
   }
 }

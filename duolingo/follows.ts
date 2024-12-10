@@ -1,7 +1,11 @@
-/** Prints follow information.
+/** Prints follow information, and optionally follows or unfollows users
  *
  * Usage:
- *   500px/follows.ts --username <username> --token <token>
+ *   duolingo/follows.ts --username <username> --token <token> [--follow] [--unfollow] [--json]
+ *
+ * Output:
+ *   👤 Following 10 people.
+ *   👤 Followed by 10 people.
  *
  * Output:
  *   {
@@ -13,26 +17,16 @@
  */
 
 import { parseArgs } from "jsr:@std/cli";
+import { checkRequired } from "../common/cli.ts";
+import { pool } from "../common/pool.ts";
 import { DuolingoClient } from "./client.ts";
 
-if (import.meta.main) {
-  const args = parseArgs(Deno.args, {
-    string: ["username", "token"],
-    boolean: ["json"],
-  });
-  if (!args.username || !args.token) {
-    console.error(
-      `Usage: follows.ts --username <username> --token <token> [--json]`,
-    );
-    Deno.exit(1);
-  }
-
-  const client = new DuolingoClient(args.username, args.token);
+async function getFollows(client: DuolingoClient) {
   const [following, followers] = await Promise.all([
     client.getFollowing(),
     client.getFollowers(),
   ]);
-  const result = {
+  return {
     following,
     followers,
     dontFollowBack: following.filter(({ userId }) =>
@@ -42,6 +36,37 @@ if (import.meta.main) {
       !following.some((user) => user.userId === userId)
     ),
   };
+}
+
+if (import.meta.main) {
+  const spec = {
+    required: ["username", "token"],
+    string: ["username", "token"],
+    boolean: ["follow", "unfollow", "json"],
+  } as const;
+  const args = parseArgs(Deno.args, spec);
+  checkRequired(spec, "username", args.username);
+  checkRequired(spec, "token", args.token);
+  console.log(args.test);
+
+  const client = new DuolingoClient(args.username, args.token);
+  let result = await getFollows(client);
+
+  if (args.follow || args.unfollow) {
+    if (args.follow) {
+      await pool(
+        result.notFollowingBack,
+        async (user) => await client.followUser(user.userId),
+      );
+    }
+    if (args.unfollow) {
+      await pool(
+        result.dontFollowBack,
+        async (user) => await client.unfollowUser(user.userId),
+      );
+    }
+    result = await getFollows(client);
+  }
 
   if (args.json) console.log(JSON.stringify(result, undefined, 2));
   else {

@@ -8,9 +8,10 @@
  *   👤 Jane Doe started following you!
  */
 
-import { pooledMap } from "jsr:@std/async";
 import { parseArgs } from "jsr:@std/cli";
-import { CONCURRENCY, DuolingoClient } from "./client.ts";
+import { checkRequired } from "../common/cli.ts";
+import { pool } from "../common/pool.ts";
+import { DuolingoClient } from "./client.ts";
 import { REACTIONS } from "./data.ts";
 import { FeedCard, Friend, Reaction } from "./types.ts";
 
@@ -68,29 +69,25 @@ async function engage(
 }
 
 if (import.meta.main) {
-  const args = parseArgs(Deno.args, {
+  const spec = {
+    required: ["username", "token"],
     string: ["username", "token"],
-    boolean: ["json", "engage"],
-  });
-  if (!args.username || !args.token) {
-    console.error(
-      `Usage: feed.ts --username <username> --token <token> [--json] [--engage]`,
-    );
-    Deno.exit(1);
-  }
+    boolean: ["engage", "json"],
+  } as const;
+  const args = parseArgs(Deno.args, spec);
+  checkRequired(spec, "username", args.username);
+  checkRequired(spec, "token", args.token);
+
   const client = new DuolingoClient(args.username, args.token);
   const followers = await client.getFollowers();
   const feed = await client.getFeed();
   if (args.json) console.log(JSON.stringify(feed, undefined, 2));
-  await Array.fromAsync(
-    pooledMap(
-      CONCURRENCY,
-      feed,
-      async (card) => {
-        if (!args.engage || await engage(client, followers, card)) {
-          if (!args.json) console.log(getEmoji(card), getSummary(card));
-        }
-      },
-    ),
+  await pool(
+    feed,
+    async (card) => {
+      if (!args.engage || await engage(client, followers, card)) {
+        if (!args.json) console.log(getEmoji(card), getSummary(card));
+      }
+    },
   );
 }

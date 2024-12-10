@@ -1,7 +1,7 @@
 /** Prints the current league status, and optionally follows leaguemates.
  *
  * Usage:
- *  duolingo/league.ts --username <username> --token <token> [--follow] [--json]
+ *   Usage: duolingo/league.ts --username <username> --token <token> [--json] [--follow]
  *
  * Output:
  *   🩷 Pearl League
@@ -10,10 +10,11 @@
  *   4. Non-friend     10 XP
  */
 
-import { pooledMap } from "jsr:@std/async";
 import { parseArgs } from "jsr:@std/cli";
+import { checkRequired } from "../common/cli.ts";
 import { printTable, right, Row } from "../common/display.ts";
-import { CONCURRENCY, DuolingoClient } from "./client.ts";
+import { pool } from "../common/pool.ts";
+import { DuolingoClient } from "./client.ts";
 import { LANGUAGES, LEAGUES } from "./data.ts";
 import { LanguageCode, LeagueUser } from "./types.ts";
 
@@ -50,28 +51,23 @@ async function followUsers(
   const userId = await client.getUserId();
   const following = await client.getFollowing();
 
-  await Array.fromAsync(
-    pooledMap(
-      CONCURRENCY,
-      users
-        .filter((user) => user.user_id !== userId)
-        .filter((user) => !following.find((f) => f.userId === user.user_id)),
-      async (user) => await client.followUser(user.user_id),
-    ),
+  await pool(
+    users
+      .filter((user) => user.user_id !== userId)
+      .filter((user) => !following.find((f) => f.userId === user.user_id)),
+    async (user) => await client.followUser(user.user_id),
   );
 }
 
 if (import.meta.main) {
-  const args = parseArgs(Deno.args, {
+  const spec = {
+    required: ["username", "token"],
     string: ["username", "token"],
-    boolean: ["json", "follow"],
-  });
-  if (!args.username || !args.token) {
-    console.error(
-      `Usage: feed.ts --username <username> --token <token> [--json] [--engage]`,
-    );
-    Deno.exit(1);
-  }
+    boolean: ["follow", "json"],
+  } as const;
+  const args = parseArgs(Deno.args, spec);
+  checkRequired(spec, "username", args.username);
+  checkRequired(spec, "token", args.token);
 
   const client = new DuolingoClient(args.username, args.token);
   const league = await client.getLeague();
