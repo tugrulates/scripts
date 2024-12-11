@@ -1,0 +1,9 @@
+{
+  "workspace": [
+    "photos"
+  ],
+  "tasks": {
+    "readme": "deno doc --lint --json */*.[jt]s | jq -rf README.jq | tail -r | tail -n +2 | tail -r > README.md",
+    "test": "deno test --doc */*.ts"
+  }
+}

@@ -1,7 +1,3 @@
-/**
- * Console helpers.
- */
-
 import { unicodeWidth } from "jsr:@std/cli";
 import { isatty } from "node:tty";
 import process from "npm:process";

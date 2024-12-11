@@ -1,7 +1,3 @@
-/**
- * GraphQL request helpers.
- */
-
 import {
   AnyVariables,
   cacheExchange,

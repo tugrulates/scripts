@@ -3,9 +3,13 @@
  *
  * Optionally follows leaguemates.
  *
- * Usage:
+ * ### Usage
+ *
  * ```sh
- * $ deno -A duolingo/league.ts <username> <token> [--json] [--follow]
+ * deno -A duolingo/league.ts <username> <token> [--json] [--follow]
+ * ```
+ *
+ * ```
  * 🩷 Pearl League
  * 1. Friend     👤 400 XP
  * 3. You            80 XP

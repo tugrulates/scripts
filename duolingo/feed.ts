@@ -3,9 +3,13 @@
  *
  * Optionally and jovially engages with the events.
  *
- * Usage:
+ * ### Usage
+ *
  * ```sh
- * $ deno -A duolingo/feed.ts <username> <token> [--engage] [--json]
+ * deno -A duolingo/feed.ts <username> <token> [--engage] [--json]
+ * ```
+ *
+ * ```
  * 🎉 John Doe Completed a 30 day streak!
  * 👤 Jane Doe started following you!
  * ```

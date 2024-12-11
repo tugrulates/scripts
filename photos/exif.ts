@@ -1,9 +1,13 @@
 /**
  * Displays information about the jpg files for a photo directory.
  *
- * Usage:
+ * ### Usage
+ *
  * ```sh
- * $ deno -A photos/exif.ts [photos...] [--copy] [--json]
+ * deno -A photos/exif.ts [photos...] [--copy] [--json]
+ * ```
+ *
+ * ```
  * 🖼 Title [⚠️ warnings]
  * ```
  */

@@ -1,7 +1,3 @@
-/**
- * JSON request helpers.
- */
-
 import { retry, type RetryOptions } from "jsr:@std/async";
 
 /**

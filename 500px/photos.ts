@@ -1,16 +1,24 @@
 /**
  * Prints the list of photos for a 500px user.
  *
- * Usage:
+ * ### Usage
+ *
  * ```sh
- * $ deno -A 500px/photos.ts <username>
+ * deno -A 500px/photos.ts <username> [--json]
+ * ```
+ *
+ * ```
  * 🏞️ Coordinating Phoenix  📈91.1 👁️1085 ❤️95
  * 🏞️ Architectural Lasagna 📈91.9 👁️1176 ❤️142
  * ```
  *
- * CSV:
+ * ### CSV
+ *
  * ```sh
- * $ deno -A 500px/photos.ts <username> --json | jq -rf 500px/photos.csv.jq
+ * deno -A 500px/photos.ts <username> --json | jq -rf 500px/photos.csv.jq
+ * ```
+ *
+ * ```csv
  * "Link","Title","Date","Views","Likes","Pulse"
  * ...
  * ```

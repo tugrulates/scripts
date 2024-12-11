@@ -1,7 +1,3 @@
-/**
- * Async helpers.
- */
-
 import { pooledMap as denoPooledMap } from "jsr:@std/async";
 
 /**

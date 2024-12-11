@@ -1,7 +1,3 @@
-/**
- * CLI helpers.
- */
-
 import { ParseOptions } from "jsr:@std/cli";
 import { basename, dirname } from "jsr:@std/path";
 

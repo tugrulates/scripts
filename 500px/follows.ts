@@ -1,19 +1,27 @@
-/** Prints follow information.
+/**
+ * Prints follow information on 500px.
  *
- * Usage:
- *   500px/follows.ts <username> [--json]
+ * ### Usage
  *
- * Output:
- *   👤 Following 212 people.
- *   👤 Followed by 89 people.
+ * ```sh
+ * deno -A 500px/follows.ts <username> [--json]
+ * ```
  *
- * JSON:
- *   {
- *     "following": [ { "id": "id1", "displayName": "example1" } ],
- *     "followers": [ { "id": "id2", "displayName": "example2" } ],
- *     "dontFollowBack": [],
- *     "notFollowingBack": []
- *   }
+ * ```sh
+ * 👤 Following 10 people.
+ * 👤 Followed by 10 people.
+ * ```
+ *
+ * ### JSON
+ *
+ * ```json
+ * {
+ *   "following": [{ "id": "id1", "displayName": "example1" }],
+ *   "followers": [{ "id": "id2", "displayName": "example2" }],
+ *   "dontFollowBack": [],
+ *   "notFollowingBack": []
+ * }
+ * ```
  */
 
 import { parseArgs } from "jsr:@std/cli";

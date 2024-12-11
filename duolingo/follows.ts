@@ -3,16 +3,20 @@
  *
  * Optionally follows users who follow, or unfollows users who don't.
  *
- * Usage:
+ * ### Usage
+ *
  * ```sh
  * $ deno -A duolingo/follows.ts <username> <token> [--follow] [--unfollow] [--json]
+ * ```
+ *
+ * ```
  * 👤 Following 10 people.
  * 👤 Followed by 10 people.
  * ```
  *
- * JSON:
- * ```sh
- * $ deno -A duolingo/follows.ts <username> <token> --json
+ * ### JSON
+ *
+ * ```
  * {
  *   "following": [ { "userId": 123456, "username": "example" } ],
  *   "followers": [ { "userId": 123456, "username": "example" } ],
