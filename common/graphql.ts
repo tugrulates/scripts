@@ -1,20 +1,30 @@
-/** @module common/graphql */
+/**
+ * GraphQL request helpers.
+ */
 
 import {
   AnyVariables,
   cacheExchange,
   Client,
   fetchExchange,
-  gql,
 } from "npm:@urql/core";
 import { retryExchange } from "npm:@urql/exchange-retry";
 import { RequestError } from "./request.ts";
 
-/** Client for GraphQL APIs. */
+/**
+ * A GraphQL client for making queries and paginated queries.
+ */
 export class GraphQLClient {
   private client;
 
-  constructor(private url: string, private options: { token?: string } = {}) {
+  /**
+   * Creates an instance of GraphQLClient.
+   *
+   * @param url The URL of the GraphQL endpoint.
+   * @param options Configuration options.
+   * @param options.token Optional authorization token.
+   */
+  constructor(url: string, options: { token?: string } = {}) {
     this.client = new Client({
       url,
       exchanges: [cacheExchange, retryExchange({}), fetchExchange],
@@ -30,7 +40,14 @@ export class GraphQLClient {
     });
   }
 
-  /** Make a GraphQL query. */
+  /**
+   * Make a GraphQL query.
+   *
+   * @param queryPaths An array of paths to the GraphQL query files.
+   * @param variables Optional variables for the query.
+   * @returns A promise that resolves to the query result.
+   * @throws {RequestError} If the query fails.
+   */
   async query<T>(
     queryPaths: string[],
     variables: AnyVariables = {},
@@ -49,7 +66,13 @@ export class GraphQLClient {
     return response.data as T;
   }
 
-  /** Make a paginated GraphQL query. */
+  /**
+   * Make a paginated GraphQL query.
+   *
+   * @param queryPaths An array of paths to the GraphQL query files.
+   * @param getEdges A function to extract edges from the query result.
+   * @param getCursor A function to extract the cursor from the query result.
+   */
   async queryPaginated<T, U>(
     queryPaths: string[],
     getEdges: (data: T) => { edges: { node: U }[] },
@@ -69,5 +92,3 @@ export class GraphQLClient {
     return nodes;
   }
 }
-
-export { gql };

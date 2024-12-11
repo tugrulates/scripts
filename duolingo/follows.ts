@@ -1,24 +1,30 @@
-/** Prints follow information, and optionally follows or unfollows users
+/**
+ * Prints follow information on Duolingo.
+ *
+ * Optionally follows users who follow, or unfollows users who don't.
  *
  * Usage:
- *   duolingo/follows.ts <username> <token> [--follow] [--unfollow] [--json]
- *
- * Output:
- *   👤 Following 10 people.
- *   👤 Followed by 10 people.
+ * ```sh
+ * $ deno -A duolingo/follows.ts <username> <token> [--follow] [--unfollow] [--json]
+ * 👤 Following 10 people.
+ * 👤 Followed by 10 people.
+ * ```
  *
  * JSON:
- *   {
- *     "following": [ { "userId": 123456, "username": "example" } ],
- *     "followers": [ { "userId": 123456, "username": "example" } ],
- *     "dontFollowBack": [],
- *     "notFollowingBack": []
- *   }
+ * ```sh
+ * $ deno -A duolingo/follows.ts <username> <token> --json
+ * {
+ *   "following": [ { "userId": 123456, "username": "example" } ],
+ *   "followers": [ { "userId": 123456, "username": "example" } ],
+ *   "dontFollowBack": [],
+ *   "notFollowingBack": []
+ * }
+ * ```
  */
 
 import { parseArgs } from "jsr:@std/cli";
+import { pool } from "../common/async.ts";
 import { getRequired } from "../common/cli.ts";
-import { pool } from "../common/pool.ts";
 import { DuolingoClient } from "./client.ts";
 
 async function getFollows(client: DuolingoClient) {

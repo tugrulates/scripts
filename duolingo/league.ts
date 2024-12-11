@@ -1,24 +1,32 @@
-/** Prints the current league status, and optionally follows leaguemates.
+/**
+ * Prints the current league status on Duolingo.
+ *
+ * Optionally follows leaguemates.
  *
  * Usage:
- *   Usage: duolingo/league.ts <username> <token> [--json] [--follow]
- *
- * Output:
- *   🩷 Pearl League
- *   1. Friend     👤 400 XP
- *   3. You            80 XP
- *   4. Non-friend     10 XP
+ * ```sh
+ * $ deno -A duolingo/league.ts <username> <token> [--json] [--follow]
+ * 🩷 Pearl League
+ * 1. Friend     👤 400 XP
+ * 3. You            80 XP
+ * 4. Non-friend     10 XP
+ * ```
  */
 
 import { parseArgs } from "jsr:@std/cli";
+import { pool } from "../common/async.ts";
 import { getRequired } from "../common/cli.ts";
-import { printTable, right, Row } from "../common/display.ts";
-import { pool } from "../common/pool.ts";
+import { printTable, right, Row } from "../common/console.ts";
 import { DuolingoClient } from "./client.ts";
 import { LANGUAGES, LEAGUES } from "./data.ts";
 import { LanguageCode, LeagueUser } from "./types.ts";
 
-/** Returns the emoji for the user's reaction. */
+/**
+ * Returns the emoji for the user's reaction.
+ *
+ * @param user User to get the emoji for.
+ * @returns Emoji for the user's reaction.
+ */
 function getEmoji(user: LeagueUser): string {
   if (user.reaction === "ANGRY") return "😡";
   if (user.reaction === "CAT") return "😺";
@@ -33,7 +41,14 @@ function getEmoji(user: LeagueUser): string {
   return "";
 }
 
-/** Returns the display summary of the league user. */
+/**
+ * Returns the display summary of the league user.
+ *
+ * @param user User to get the summary for.
+ * @param index Index of the user in the league.
+ * @param following Whether the user is being followed.
+ * @returns Display summary of the league user.
+ */
 function getRow(user: LeagueUser, index: number, following: boolean): Row {
   return [
     right(`${index + 1}.`),
@@ -43,7 +58,13 @@ function getRow(user: LeagueUser, index: number, following: boolean): Row {
   ];
 }
 
-/** Follows all the users in the league. */
+/**
+ * Follows all the users in the league.
+ *
+ * @param client Duolingo client to use for following.
+ * @param users Users to follow.
+ * @returns A promise that resolves when all users are followed.
+ */
 async function followUsers(
   client: DuolingoClient,
   users: LeagueUser[],

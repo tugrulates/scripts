@@ -1,17 +1,31 @@
-/** @module 500px/client */
-
 import { GraphQLClient } from "../common/graphql.ts";
 import { Category, Photo, User } from "./types.ts";
 
-/** Client for 500px API. */
+/**
+ * Client for interacting with the 500px GraphQL API.
+ *
+ * Provides the logged out experience, and does not require authentication.
+ */
 export class FiveHundredPxClient {
   private client: GraphQLClient;
 
+  /**
+   * Creates an instance of the client.
+   *
+   * @param options Optional configuration options.
+   * @param options.token Optional authentication token.
+   */
   constructor(options: { token?: string } = {}) {
     this.client = new GraphQLClient("https://api.500px.com/graphql", options);
   }
 
-  async getPhotos(username: string) {
+  /**
+   * Retrieves photos for a given user.
+   *
+   * @param username The username of the user whose photos are to be retrieved.
+   * @returns A promise that resolves to the user's photos.
+   */
+  async getPhotos(username: string): Promise<Photo[]> {
     return await this.client.queryPaginated<
       {
         user: {
@@ -34,7 +48,13 @@ export class FiveHundredPxClient {
     );
   }
 
-  async getFollowing(username: string) {
+  /**
+   * Retrieves the list of users followed by a given user.
+   *
+   * @param username The username of the user whose following list is to be retrieved.
+   * @returns A promise that resolves to the list of users followed by the given user.
+   */
+  async getFollowing(username: string): Promise<User[]> {
     return await this.client.queryPaginated<
       {
         user: {
@@ -59,7 +79,13 @@ export class FiveHundredPxClient {
     );
   }
 
-  async getFollowers(username: string) {
+  /**
+   * Retrieves the list of followers for a given user.
+   *
+   * @param username The username of the user whose followers are to be retrieved.
+   * @returns A promise that resolves to the list of followers of the given user.
+   */
+  async getFollowers(username: string): Promise<User[]> {
     return await this.client.queryPaginated<
       {
         user: {
@@ -84,6 +110,14 @@ export class FiveHundredPxClient {
     );
   }
 
+  /**
+   * Retrieves the "For You" feed.
+   *
+   * @param options Configuration options.
+   * @param options.limit The maximum number of items to retrieve.
+   * @param options.categories The categories to filter the feed by.
+   * @returns A promise that resolves to the "For You" feed photos.
+   */
   async getForYouFeed(
     options: { limit?: number; categories?: Category[] } = {},
   ): Promise<Photo[]> {

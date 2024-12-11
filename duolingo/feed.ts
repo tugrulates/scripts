@@ -1,21 +1,29 @@
-/** Prints the current feed, and optionally and jovially engages with it.
+/**
+ * Prints the current Duolingo feed.
+ *
+ * Optionally and jovially engages with the events.
  *
  * Usage:
- *  duolingo/feed.ts <username> <token> [--engage] [--json]
- *
- * Output:
- *   🎉 John Doe Completed a 30 day streak!
- *   👤 Jane Doe started following you!
+ * ```sh
+ * $ deno -A duolingo/feed.ts <username> <token> [--engage] [--json]
+ * 🎉 John Doe Completed a 30 day streak!
+ * 👤 Jane Doe started following you!
+ * ```
  */
 
 import { parseArgs } from "jsr:@std/cli";
+import { pool } from "../common/async.ts";
 import { getRequired } from "../common/cli.ts";
-import { pool } from "../common/pool.ts";
 import { DuolingoClient } from "./client.ts";
 import { REACTIONS } from "./data.ts";
 import { FeedCard, Friend, Reaction } from "./types.ts";
 
-/** Returns the reaction on the card, or picks an appripriate one. */
+/**
+ * Returns the reaction on the card, or picks an appripriate one.
+ *
+ * @param card Card to get the reaction for.
+ * @returns Reaction on the card.
+ */
 function getReaction(card: FeedCard): Reaction {
   if (card.reactionType) return card.reactionType;
   if (card.cardType === "SHARE_SENTENCE_OFFER") return "like";
@@ -30,7 +38,12 @@ function getReaction(card: FeedCard): Reaction {
   return "cheer";
 }
 
-/** Returns the display emoji for the card. */
+/**
+ * Returns the display emoji for the card.
+ *
+ * @param card Card to get the emoji for.
+ * @returns Display emoji for the card.
+ */
 function getEmoji(card: FeedCard): string {
   if (card.cardType === "FOLLOW" || card.cardType === "FOLLOW_BACK") {
     return "👤";
@@ -38,13 +51,25 @@ function getEmoji(card: FeedCard): string {
   return REACTIONS[getReaction(card)];
 }
 
-/** Returns the display summary of the card. */
+/**
+ * Returns the display summary of the card.
+ *
+ * @param card Card to get the summary for.
+ * @returns Display summary of the card.
+ */
 function getSummary(card: FeedCard): string {
   return card.header?.replace(/<[^>]+>/g, "") ??
     `${card.displayName} ${card.body.toLowerCase()}`;
 }
 
-/** Engages with the event, following the user or sending a reaction. */
+/**
+ * Engages with the event, following the user or sending a reaction.
+ *
+ * @param client Duolingo client.
+ * @param followers List of followers, to skip in follow-backs.
+ * @param card Card to engage with.
+ * @returns True if the event was engaged with.
+ */
 async function engage(
   client: DuolingoClient,
   followers: Friend[],

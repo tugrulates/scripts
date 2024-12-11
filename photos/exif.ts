@@ -1,10 +1,11 @@
-/** Display information about the jpg files for a photo directory.
+/**
+ * Displays information about the jpg files for a photo directory.
  *
  * Usage:
- *   photos/exif.ts [photos...] [--copy] [--json]
- *
- * Output:
- *   🖼 Title [⚠️ warnings]
+ * ```sh
+ * $ deno -A photos/exif.ts [photos...] [--copy] [--json]
+ * 🖼 Title [⚠️ warnings]
+ * ```
  */
 
 import $ from "jsr:@david/dax";
@@ -16,7 +17,12 @@ import { Exif, Photo } from "./types.ts";
 const SOURCE_FILE = "source.jpg";
 const EXIFTOOL = ["exiftool", "-q", "-overwrite_original_in_place"];
 
-/** Returns true if the directory contains a source photo. */
+/**
+ * Returns true if the directory contains a source photo.
+ *
+ * @param dir Directory to check.
+ * @returns True if the directory contains a source photo.
+ */
 async function isPhotoDirectory(dir: string): Promise<boolean> {
   try {
     await Deno.lstat(`${dir}/${SOURCE_FILE}`);
@@ -26,7 +32,12 @@ async function isPhotoDirectory(dir: string): Promise<boolean> {
   }
 }
 
-/** Returns a list of all files in the directory. */
+/**
+ * Returns a list of all JPG files in the directory.
+ *
+ * @param photo Directory to check.
+ * @returns List of all JPG files in the directory.
+ */
 async function getFiles(photo: string): Promise<string[]> {
   if (!(await isPhotoDirectory(photo))) return [photo];
   return (await Array.fromAsync(Deno.readDir(photo)))
@@ -36,7 +47,11 @@ async function getFiles(photo: string): Promise<string[]> {
     .toSorted();
 }
 
-/** Returns a list of all photo directories under cwd. */
+/**
+ * Returns a list of all photo directories under cwd.
+ *
+ * @returns List of all photo directories under cwd.
+ */
 async function* allPhotos(): AsyncGenerator<string> {
   for await (const dirEntry of Deno.readDir(".")) {
     if (dirEntry.isDirectory && await isPhotoDirectory(dirEntry.name)) {
@@ -45,7 +60,12 @@ async function* allPhotos(): AsyncGenerator<string> {
   }
 }
 
-/** Returns the EXIF data for the file. */
+/**
+ * Returns the EXIF data for the file.
+ *
+ * @param file File to get EXIF data for.
+ * @returns EXIF data for the file.
+ */
 async function getExif(file: string): Promise<Exif> {
   const lines = await $`${EXIFTOOL} ${file}`.lines();
   const data = Object.fromEntries(
@@ -69,7 +89,12 @@ async function getExif(file: string): Promise<Exif> {
   };
 }
 
-/** Returns the data for a photo or a single size file. */
+/**
+ * Returns the data for a photo or a single file.
+ *
+ * @param photo Photo or file to get data for.
+ * @returns Data for the photo or file.
+ */
 async function getData(photo: string): Promise<Photo> {
   const files = await getFiles(photo);
   const exif = Object.fromEntries(
@@ -92,7 +117,12 @@ async function getData(photo: string): Promise<Photo> {
   };
 }
 
-/** Returns metadata problems with the photo. */
+/**
+ * Returns a warning message if the photo is missing required fields.
+ *
+ * @param data Photo data to check.
+ * @returns Message with the following text: [⚠️ warnings...].
+ */
 function check(data: Photo) {
   const result = [];
   for (
@@ -120,6 +150,11 @@ function check(data: Photo) {
   return "";
 }
 
+/**
+ * Copies the EXIF data from source.jpg to all other jpg files.
+ *
+ * @param photo Directory containing jpg files or a single JPG file.
+ */
 async function copyExif(photo: string) {
   const base = join(
     await isPhotoDirectory(photo) ? photo : dirname(photo),
@@ -148,4 +183,6 @@ if (import.meta.main) {
     if (args.json) console.log(JSON.stringify(data));
     else console.log(`🖼  ${data.title} ${check(data)}`);
   }
+
+  Deno.exit(0);
 }

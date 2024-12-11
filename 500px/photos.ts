@@ -1,23 +1,33 @@
-/** Prints the list of photos for a user.
+/**
+ * Prints the list of photos for a 500px user.
  *
  * Usage:
- *   Usage: 500px/photos.ts <username> [--json]
- *
- * Output:
- *   🏞️ Coordinating Phoenix  📈91.1 👁️1085 ❤️95
- *   🏞️ Architectural Lasagna 📈91.9 👁️1176 ❤️142
+ * ```sh
+ * $ deno -A 500px/photos.ts <username>
+ * 🏞️ Coordinating Phoenix  📈91.1 👁️1085 ❤️95
+ * 🏞️ Architectural Lasagna 📈91.9 👁️1176 ❤️142
+ * ```
  *
  * CSV:
- *   500px/photos.ts <username> --json | jq -f 500px/photos.csv.jq
+ * ```sh
+ * $ deno -A 500px/photos.ts <username> --json | jq -rf 500px/photos.csv.jq
+ * "Link","Title","Date","Views","Likes","Pulse"
+ * ...
+ * ```
  */
 
 import { parseArgs } from "jsr:@std/cli";
 import { getRequired } from "../common/cli.ts";
-import { printTable, Row } from "../common/display.ts";
+import { printTable, Row } from "../common/console.ts";
 import { FiveHundredPxClient } from "./client.ts";
 import { Photo } from "./types.ts";
 
-/** Returns the display row of the photo. */
+/**
+ * Returns the display row of the photo.
+ *
+ * @param photo Photo to display.
+ * @returns Display row of the photo.
+ */
 function getRow(photo: Photo): Row {
   return [
     `🏞️  ${photo.name}`,

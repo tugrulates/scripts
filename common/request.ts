@@ -1,12 +1,44 @@
-/** @module common/request */
+/**
+ * JSON request helpers.
+ */
 
 import { retry, type RetryOptions } from "jsr:@std/async";
 
-/** Client for JSON APIs. */
+/**
+ * Represents an error that occurs during a request.
+ */
+export class RequestError extends Error {
+  /**
+   * Creates an instance of RequestError.
+   *
+   * @param msg The error message to be associated with this error.
+   */
+  constructor(msg: string) {
+    super(msg);
+    this.name = "RequestError";
+  }
+}
+
+/**
+ * A client for making JSON-based HTTP requests.
+ */
 export class JsonClient {
+  /**
+   * Creates an instance of the JsonClient with the specified URL and options.
+   *
+   * @param url The base URL to which the requests are made.
+   * @param options Parameters for the requests.
+   * @param options.token Optional token for authentication.
+   */
   constructor(private url: string, private options: { token?: string }) {}
 
-  /** Make a get request, and receive JSON data. */
+  /**
+   * Sends a GET request to the specified path.
+   *
+   * @template T The expected response type.
+   * @param path The path to which the GET request is made.
+   * @returns A promise that resolves to the response data.
+   */
   async get<T>(path: string): Promise<T> {
     const { response } = await request<T>(`${this.url}${path}`, {
       token: this.options.token,
@@ -17,7 +49,14 @@ export class JsonClient {
     return await response.json();
   }
 
-  /** Make a post request with JSON data, and receive JSON data. */
+  /**
+   * Sends a POST request to the specified path with the provided body.
+   *
+   * @template T The expected response type.
+   * @param path The path to which the POST request is made.
+   * @param body The body of the POST request.
+   * @returns A promise that resolves to the response data.
+   */
   async post<T>(path: string, body: object): Promise<T> {
     const { response } = await request<T>(`${this.url}${path}`, {
       method: "POST",
@@ -31,7 +70,13 @@ export class JsonClient {
     return await response.json();
   }
 
-  /** Make a delete request and receive JSON data. */
+  /**
+   * Sends a DELETE request to the specified path.
+   *
+   * @template T The expected response type.
+   * @param path The path to which the DELETE request is made.
+   * @returns A promise that resolves to the response data.
+   */
   async delete<T>(path: string): Promise<T> {
     const { response } = await request<T>(`${this.url}${path}`, {
       method: "DELETE",
@@ -57,14 +102,16 @@ interface RequestOptions {
   userAgent?: string;
 }
 
-export class RequestError extends Error {
-  constructor(msg: string) {
-    super(msg);
-    this.name = "RequestError";
-  }
-}
-
-/** Makes an HTTP request, with retries on 429. */
+/**
+ * Makes an HTTP request with the given URL and options, and returns a response object.
+ * Retries the request if it fails due to too many requests.
+ *
+ * @template T The expected response type.
+ * @param url The URL to request.
+ * @param options The options for the request.
+ * @returns A promise that resolves to an object containing the response and optionally an error.
+ * @throws {RequestError} If the response is not ok and the error type is not allowed.
+ */
 async function request<T>(
   url: string,
   options: RequestOptions = {},

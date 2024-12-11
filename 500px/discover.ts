@@ -1,20 +1,38 @@
-/** Prints a list of users to engage with.
+/**
+ * Prints a list of active and high quality users on 500px.
  *
  * Usage:
- *   500px/discover.ts [--categories...] [--json]
- *   500px/discover.ts --animals
- *   500px/discover.ts --landscapes --city-and-architecture
+ * ```sh
+ * $ deno -A 500px/discover.ts [--categories...] [--json]
+ * 👤 /user1
+ * 👤 /user2
+ * 👤 /user3
+ * ```
+ *
+ * Categories:
+ * ```sh
+ * $ deno -A 500px/discover.ts --animals
+ * 👤 /user1
+ * ```
+ *
+ * JSON:
+ * ```
+ * $ deno -A 500px/discover.ts --landscapes --city-and-architecture --json
+ * { "discover": [ "/user2", "/user3" ] }
+ * ```
  *
  * Output:
- *   👤 /user1
- *   👤 /user2
- *   👤 /user3
  */
 
+/**
+ * Skip list for user IDs.
+ *
+ * Skips photos copied from VCG.
+ */
 const SKIP = [/^\/vcg-/];
 
 import { parseArgs } from "jsr:@std/cli/parse-args";
-import { printTable } from "../common/display.ts";
+import { printTable } from "../common/console.ts";
 import { FiveHundredPxClient } from "./client.ts";
 import { CATEGORIES } from "./data.ts";
 

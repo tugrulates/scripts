@@ -1,6 +1,10 @@
-/** @module 500px/data */
-
-/** Photo categories. */
+/**
+ * Photo categories on 500px.
+ *
+ * Each photo belongs to a single category.
+ *
+ * @see {@link https://500px.com/discover/top_categories 500px Categories}
+ */
 export const CATEGORIES = {
   UNCATEGORIZED: { id: 0, arg: "other", nude: false },
   CELEBRITIES: { id: 1, arg: "celebrities", nude: false },

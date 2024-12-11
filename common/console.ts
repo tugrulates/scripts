@@ -1,24 +1,43 @@
-/** @module common/display */
+/**
+ * Console helpers.
+ */
 
 import { unicodeWidth } from "jsr:@std/cli";
 import { isatty } from "node:tty";
 import process from "npm:process";
 import terminalLink from "npm:terminal-link";
 
-/** Table row type. */
+/**
+ * Represents a printed table row.
+ */
 export type Row = Cell[];
 
-/** Table cell type, basic or formatted string. */
-export type Cell = string | RichCell;
+/** Represents a printed table cell type.
+ *
+ * A cell can contain either a simple or formatted string. */
+export type Cell = string | FormattedCell;
 
-/** Rich cell type with formatting, and an option clickable link. */
-interface RichCell {
+/**
+ * Represents a formatted cell.
+ *
+ * Support left or right alignment, and linking.
+ */
+export interface FormattedCell {
+  /** The text content of the cell. */
   text: string;
+  /** The alignment of the cell content. */
   align: "left" | "right";
+  /** The URL to link the cell to. */
   url: string | null;
 }
 
-/** Print a well formatted table to stdout. */
+/**
+ * Prints a well formatted table to stdout.
+ *
+ * Uses `console.log`.
+ *
+ * @param rows The rows to print.
+ */
 export function printTable(rows: Row[]): void {
   const widths = rows.reduce((widths: number[], row: Row) => {
     for (const [i, cell] of row.entries()) {
@@ -38,18 +57,33 @@ export function printTable(rows: Row[]): void {
   }
 }
 
-/** A cell with a clickable link. */
+/**
+ * Creates a cell with a clickable link.
+ *
+ * @param text The text content of the cell.
+ * @param url The URL to link the cell to.
+ */
 export function link(text: string, url?: string): Cell {
   return url !== undefined ? { text, url, align: "left" } : text;
 }
 
-/** A cell aligned to the right. */
-export function right(text: Cell): RichCell {
+/**
+ * Creates a cell aligned to the right.
+ *
+ * @param text The text content of the cell.
+ */
+export function right(text: Cell): FormattedCell {
   const cell = typeof text === "string" ? { text, url: null } : text;
   return { ...cell, align: "right" };
 }
 
-/** Render a cell, optionally padding to a width. */
+/**
+ * Renders a cell, optionally padding to a width.
+ *
+ * @param cell The cell to render.
+ * @param links Whether to render links.
+ * @param width The width to pad to.
+ */
 function render(cell: Cell, links: boolean, width?: number): string {
   const {
     text,
