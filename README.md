@@ -1,6 +1,17 @@
 # Various scripts
 
-## `500px/discover.ts`
+- [500px Discover](#500px-discover-500pxdiscoverts)
+- [500px Follows](#500px-follows-500pxfollowsts)
+- [500px Photos](#500px-photos-500pxphotosts)
+- [Duolingo Feed](#duolingo-feed-duolingofeedts)
+- [Duolingo Follows](#duolingo-follows-duolingofollowsts)
+- [Duolingo League](#duolingo-league-duolingoleaguets)
+- [Instagram Discover](#instagram-discover-instagramdiscoverjs)
+- [Instagram Follows](#instagram-follows-instagramfollowsjs)
+- [Instagram Stats](#instagram-stats-instagramstatsjs)
+- [Photos Exif](#photos-exif-photosexifts)
+
+## 500px Discover ([`500px/discover.ts`](500px/discover.ts))
 
 Prints a list of active and high quality users on 500px.
 
@@ -25,7 +36,7 @@ deno -A 500px/discover.ts --animals --city-architecture --landscapes
 { "discover": ["/user2", "/user3"] }
 ```
 
-## `500px/follows.ts`
+## 500px Follows ([`500px/follows.ts`](500px/follows.ts))
 
 Prints follow information on 500px.
 
@@ -51,7 +62,7 @@ deno -A 500px/follows.ts <username> [--json]
 }
 ```
 
-## `500px/photos.ts`
+## 500px Photos ([`500px/photos.ts`](500px/photos.ts))
 
 Prints the list of photos for a 500px user.
 
@@ -77,7 +88,7 @@ deno -A 500px/photos.ts <username> --json | jq -rf 500px/photos.csv.jq
 ...
 ```
 
-## `duolingo/feed.ts`
+## Duolingo Feed ([`duolingo/feed.ts`](duolingo/feed.ts))
 
 Prints the current Duolingo feed.
 
@@ -94,7 +105,7 @@ deno -A duolingo/feed.ts <username> <token> [--engage] [--json]
 👤 Jane Doe started following you!
 ```
 
-## `duolingo/follows.ts`
+## Duolingo Follows ([`duolingo/follows.ts`](duolingo/follows.ts))
 
 Prints follow information on Duolingo.
 
@@ -122,7 +133,7 @@ $ deno -A duolingo/follows.ts <username> <token> [--follow] [--unfollow] [--json
 }
 ```
 
-## `duolingo/league.ts`
+## Duolingo League ([`duolingo/league.ts`](duolingo/league.ts))
 
 Prints the current league status on Duolingo.
 
@@ -141,7 +152,7 @@ deno -A duolingo/league.ts <username> <token> [--json] [--follow]
 4. Non-friend     10 XP
 ```
 
-## `instagram/discover.js`
+## Instagram Discover ([`instagram/discover.js`](instagram/discover.js))
 
 Discover relevant accounts to follow on Instagram.
 
@@ -167,7 +178,7 @@ const profiles = getProfiles();
 profiles;
 ```
 
-## `instagram/follows.js`
+## Instagram Follows ([`instagram/follows.js`](instagram/follows.js))
 
 Pull follower information on Instagram.
 
@@ -183,7 +194,7 @@ follows.notFollowingBack;
 copy(follows);
 ```
 
-## `instagram/stats.js`
+## Instagram Stats ([`instagram/stats.js`](instagram/stats.js))
 
 Pull post insights on Instagram.
 
@@ -205,7 +216,7 @@ const metrics = getMetrics();
 metrics;
 ```
 
-## `photos/exif.ts`
+## Photos Exif ([`photos/exif.ts`](photos/exif.ts))
 
 Displays information about the jpg files for a photo directory.
 
