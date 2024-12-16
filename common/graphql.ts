@@ -41,7 +41,7 @@ export class GraphQLClient {
    *
    * @param queryPaths An array of paths to the GraphQL query files.
    * @param variables Optional variables for the query.
-   * @returns A promise that resolves to the query result.
+   * @returns The query result.
    * @throws {RequestError} If the query fails.
    */
   async query<T>(

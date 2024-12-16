@@ -33,7 +33,7 @@ export class JsonClient {
    *
    * @template T The expected response type.
    * @param path The path to which the GET request is made.
-   * @returns A promise that resolves to the response data.
+   * @returns The response data.
    */
   async get<T>(path: string): Promise<T> {
     const { response } = await request<T>(`${this.url}${path}`, {
@@ -51,7 +51,7 @@ export class JsonClient {
    * @template T The expected response type.
    * @param path The path to which the POST request is made.
    * @param body The body of the POST request.
-   * @returns A promise that resolves to the response data.
+   * @returns The response data.
    */
   async post<T>(path: string, body: object): Promise<T> {
     const { response } = await request<T>(`${this.url}${path}`, {
@@ -71,7 +71,7 @@ export class JsonClient {
    *
    * @template T The expected response type.
    * @param path The path to which the DELETE request is made.
-   * @returns A promise that resolves to the response data.
+   * @returns The response data.
    */
   async delete<T>(path: string): Promise<T> {
     const { response } = await request<T>(`${this.url}${path}`, {
@@ -105,7 +105,7 @@ interface RequestOptions {
  * @template T The expected response type.
  * @param url The URL to request.
  * @param options The options for the request.
- * @returns A promise that resolves to an object containing the response and optionally an error.
+ * @returns An object containing the response and optionally an error.
  * @throws {RequestError} If the response is not ok and the error type is not allowed.
  */
 async function request<T>(

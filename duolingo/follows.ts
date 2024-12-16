@@ -1,37 +1,14 @@
-/**
- * Prints follow information on Duolingo.
- *
- * Optionally follows users who follow, or unfollows users who don't.
- *
- * ### Usage
- *
- * ```sh
- * $ deno -A duolingo/follows.ts <username> <token> [--follow] [--unfollow] [--json]
- * ```
- *
- * ```
- * 👤 Following 10 people.
- * 👤 Followed by 10 people.
- * ```
- *
- * ### JSON
- *
- * ```
- * {
- *   "following": [ { "userId": 123456, "username": "example" } ],
- *   "followers": [ { "userId": 123456, "username": "example" } ],
- *   "dontFollowBack": [],
- *   "notFollowingBack": []
- * }
- * ```
- */
-
-import { parseArgs } from "jsr:@std/cli";
+import { Command } from "jsr:@cliffy/command";
 import { pool } from "../common/async.ts";
-import { getRequired } from "../common/cli.ts";
-import { DuolingoClient } from "./client.ts";
+import { getClient } from "./cli.ts";
 
-async function getFollows(client: DuolingoClient) {
+/**
+ * Fetches and organizes follow information.
+ *
+ * @returns Users who are followed, users who follow, and their difference sets.
+ */
+async function getFollows() {
+  const client = await getClient();
   const [following, followers] = await Promise.all([
     client.getFollowing(),
     client.getFollowers(),
@@ -48,36 +25,60 @@ async function getFollows(client: DuolingoClient) {
   };
 }
 
+/**
+ * Command line interface for managing followers.
+ *
+ * @ignore missing-explicit-type
+ */
+export const command = new Command()
+  .description("Prints and manages follower information on Duolingo.")
+  .example("duolingo follows", "Prints follow counts.")
+  .example("duolingo follows --follows", "Follow users who follow.")
+  .example("duolingo follows --unfollow", "Unfollow users who dont' follow.")
+  .example("duolingo follows --follow --unfollow", "Matches both lists.")
+  .example("duolingo follows --json", "Outputs JSON of follower information.")
+  .example(
+    "duolingo follows --json | jq",
+    "Query JSON for follower information.",
+  )
+  .example(
+    "duolingo follows --json | jq '.dontFollowBack[].username'",
+    "List users who are followed but don't follow back.",
+  )
+  .example(
+    "duolingo follows --json | jq '.notFollowingBack[].username'",
+    "List users who follow but are not followed back.",
+  )
+  .option("--follow", "Follow users who follow.")
+  .option("--unfollow", "Unfollow users who don't follow.")
+  .option("--json", "Output the follower information as JSON.")
+  .action(async ({ follow, unfollow, json }) => {
+    const client = await getClient();
+    let result = await getFollows();
+
+    if (follow || unfollow) {
+      if (follow) {
+        await pool(
+          result.notFollowingBack,
+          async (user) => await client.followUser(user.userId),
+        );
+      }
+      if (unfollow) {
+        await pool(
+          result.dontFollowBack,
+          async (user) => await client.unfollowUser(user.userId),
+        );
+      }
+      result = await getFollows();
+    }
+
+    if (json) console.log(JSON.stringify(result, undefined, 2));
+    else {
+      console.log(`👤 Following ${result.following.length} people.`);
+      console.log(`👤 Followed by ${result.followers.length} people.`);
+    }
+  });
+
 if (import.meta.main) {
-  const spec = {
-    _: ["username", "token"],
-    boolean: ["follow", "unfollow", "json"],
-  } as const;
-  const args = parseArgs(Deno.args, spec);
-  const [username, token] = getRequired(args, spec);
-
-  const client = new DuolingoClient(username, token);
-  let result = await getFollows(client);
-
-  if (args.follow || args.unfollow) {
-    if (args.follow) {
-      await pool(
-        result.notFollowingBack,
-        async (user) => await client.followUser(user.userId),
-      );
-    }
-    if (args.unfollow) {
-      await pool(
-        result.dontFollowBack,
-        async (user) => await client.unfollowUser(user.userId),
-      );
-    }
-    result = await getFollows(client);
-  }
-
-  if (args.json) console.log(JSON.stringify(result, undefined, 2));
-  else {
-    console.log(`👤 Following ${result.following.length} people.`);
-    console.log(`👤 Followed by ${result.followers.length} people.`);
-  }
+  await command.parse();
 }

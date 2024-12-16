@@ -1,29 +1,27 @@
-/**
- * Prints the current league status on Duolingo.
- *
- * Optionally follows leaguemates.
- *
- * ### Usage
- *
- * ```sh
- * deno -A duolingo/league.ts <username> <token> [--json] [--follow]
- * ```
- *
- * ```
- * 🩷 Pearl League
- * 1. Friend     👤 400 XP
- * 3. You            80 XP
- * 4. Non-friend     10 XP
- * ```
- */
-
-import { parseArgs } from "jsr:@std/cli";
+import { Command } from "jsr:@cliffy/command";
+import { Table } from "jsr:@cliffy/table";
 import { pool } from "../common/async.ts";
-import { getRequired } from "../common/cli.ts";
-import { printTable, right, Row } from "../common/console.ts";
-import { DuolingoClient } from "./client.ts";
+import { getClient } from "./cli.ts";
 import { LANGUAGES, LEAGUES } from "./data.ts";
-import { LanguageCode, LeagueUser } from "./types.ts";
+import { LanguageCode, League, LeagueUser } from "./types.ts";
+
+/**
+ * Follows all the users in the league.
+ *
+ * @param users Users to follow.
+ */
+async function followUsers(users: LeagueUser[]) {
+  const client = await getClient();
+  const userId = await client.getUserId();
+  const following = await client.getFollowing();
+
+  await pool(
+    users
+      .filter((user) => user.user_id !== userId)
+      .filter((user) => !following.find((f) => f.userId === user.user_id)),
+    async (user) => await client.followUser(user.user_id),
+  );
+}
 
 /**
  * Returns the emoji for the user's reaction.
@@ -46,69 +44,48 @@ function getEmoji(user: LeagueUser): string {
 }
 
 /**
- * Returns the display summary of the league user.
+ * Outputs the league to the console.
  *
- * @param user User to get the summary for.
- * @param index Index of the user in the league.
- * @param following Whether the user is being followed.
- * @returns Display summary of the league user.
+ * @param league League to output.
  */
-function getRow(user: LeagueUser, index: number, following: boolean): Row {
-  return [
-    right(`${index + 1}.`),
-    `${user.display_name} ${getEmoji(user)}`,
-    following ? "👤" : "",
-    right(`${user.score.toString()} XP`),
-  ];
+async function output(league: League) {
+  const client = await getClient();
+  const following = await client.getFollowing();
+  const tier = LEAGUES[league.tier];
+  new Table()
+    .header([tier.emoji, tier.name])
+    .body(
+      league.rankings.map((user, index) => [
+        `${index + 1}.`,
+        `${user.display_name} ${getEmoji(user)}`,
+        following ? "👤" : "",
+        `${user.score.toString()} XP`,
+      ]),
+    )
+    .columns([{ align: "right" }, {}, {}, { align: "right" }])
+    .render();
 }
 
 /**
- * Follows all the users in the league.
+ * Command line interface for interacting with the current league.
  *
- * @param client Duolingo client to use for following.
- * @param users Users to follow.
- * @returns A promise that resolves when all users are followed.
+ * @ignore missing-explicit-type
  */
-async function followUsers(
-  client: DuolingoClient,
-  users: LeagueUser[],
-): Promise<void> {
-  const userId = await client.getUserId();
-  const following = await client.getFollowing();
-
-  await pool(
-    users
-      .filter((user) => user.user_id !== userId)
-      .filter((user) => !following.find((f) => f.userId === user.user_id)),
-    async (user) => await client.followUser(user.user_id),
-  );
-}
+export const command = new Command()
+  .description("Prints and interacts with the current Duolingo league.")
+  .example("duolingo league", "Prints the league.")
+  .example("duolingo league --follow", "Follows users in the league.")
+  .example("duolingo league --json | jq", "Query JSON over the league.")
+  .option("--follow", "Follow users in the league.")
+  .option("--json", "Output the league as JSON.")
+  .action(async ({ follow, json }) => {
+    const client = await getClient();
+    const league = await client.getLeague();
+    if (follow) await followUsers(league.rankings);
+    if (json) console.log(JSON.stringify(league, undefined, 2));
+    else await output(league);
+  });
 
 if (import.meta.main) {
-  const spec = {
-    _: ["username", "token"],
-    boolean: ["follow", "json"],
-  } as const;
-  const args = parseArgs(Deno.args, spec);
-  const [username, token] = getRequired(args, spec);
-
-  const client = new DuolingoClient(username, token);
-  const league = await client.getLeague();
-  const tier = LEAGUES[league.tier];
-  if (args.follow) await followUsers(client, league.rankings);
-  const following = await client.getFollowing();
-
-  if (args.json) console.log(JSON.stringify(league, undefined, 2));
-  else {
-    console.log(`${tier.emoji} ${tier.name}`);
-    printTable(
-      league.rankings.map((user, index) =>
-        getRow(
-          user,
-          index,
-          following.find((f) => f.userId === user.user_id) !== undefined,
-        )
-      ),
-    );
-  }
+  await command.parse();
 }

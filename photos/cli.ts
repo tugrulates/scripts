@@ -1,21 +1,7 @@
-/**
- * Displays information about the jpg files for a photo directory.
- *
- * ### Usage
- *
- * ```sh
- * deno -A photos/exif.ts [photos...] [--copy] [--json]
- * ```
- *
- * ```
- * 🖼 Title [⚠️ warnings]
- * ```
- */
-
+import { colors } from "jsr:@cliffy/ansi/colors";
+import { Command } from "jsr:@cliffy/command";
 import $ from "jsr:@david/dax";
-import { parseArgs } from "jsr:@std/cli";
 import { basename, dirname, join } from "jsr:@std/path";
-import { getOptional } from "../common/cli.ts";
 import { Exif, Photo } from "./types.ts";
 
 const SOURCE_FILE = "source.jpg";
@@ -149,8 +135,8 @@ function check(data: Photo) {
   if (!data.location) result.push("location");
   if (!data.camera) result.push("camera");
   if (!data.lens) result.push("lens");
-  if (!data.sizes.every((size) => size.sameExif)) result.push("same");
-  if (result.length) return `[⚠️ ${result.join(", ")}]`;
+  if (!data.sizes.every((size) => size.sameExif)) result.push("inconsistent");
+  if (result.length) return `[${colors.yellow(result.join(", "))}]`;
   return "";
 }
 
@@ -176,17 +162,30 @@ async function copyExif(photo: string) {
   }));
 }
 
+/**
+ * Command line interface for managing photos.
+ *
+ * @ignore missing-explicit-type
+ */
+export const command = new Command()
+  .name("photos")
+  .example("photos", "Lists for all photos under current directory.")
+  .example("photos [directory] --json", "Data for a photo with all sizes.")
+  .example("photos [file.jpg] --json", "Data for a single size file.")
+  .example("photos [directory] --copy", "Copy EXIF data to all sizes.")
+  .description("Manage photos.")
+  .arguments("[photos...:file]")
+  .option("--copy", "Copy the EXIF from source jpg file to other jpg files.")
+  .option("--json", "Output the EXIF information as JSON.")
+  .action(async ({ copy, json }, ...photos) => {
+    for await (const photo of (photos.length > 0 ? photos : allPhotos())) {
+      const data = await getData(photo);
+      if (copy) await copyExif(photo);
+      if (json) console.log(JSON.stringify(data));
+      else console.log(`🖼  ${data.title} ${check(data)}`);
+    }
+  });
+
 if (import.meta.main) {
-  const spec = { boolean: "json" } as const;
-  const args = parseArgs(Deno.args, spec);
-  const photos = args._.length ? getOptional(args) : allPhotos();
-
-  for await (const photo of photos) {
-    if (args.copy) await copyExif(photo);
-    const data = await getData(photo);
-    if (args.json) console.log(JSON.stringify(data));
-    else console.log(`🖼  ${data.title} ${check(data)}`);
-  }
-
-  Deno.exit(0);
+  await command.parse();
 }

@@ -1,26 +1,38 @@
-/**
- * Prints the current Duolingo feed.
- *
- * Optionally and jovially engages with the events.
- *
- * ### Usage
- *
- * ```sh
- * deno -A duolingo/feed.ts <username> <token> [--engage] [--json]
- * ```
- *
- * ```
- * 🎉 John Doe Completed a 30 day streak!
- * 👤 Jane Doe started following you!
- * ```
- */
-
-import { parseArgs } from "jsr:@std/cli";
+import { Command } from "jsr:@cliffy/command";
 import { pool } from "../common/async.ts";
-import { getRequired } from "../common/cli.ts";
-import { DuolingoClient } from "./client.ts";
+import { getClient } from "./cli.ts";
 import { REACTIONS } from "./data.ts";
 import { FeedCard, Friend, Reaction } from "./types.ts";
+
+/**
+ * Engages with the event, following the user or sending a reaction.
+ *
+ * @param followers List of followers, to skip in follow-backs.
+ * @param card Card to engage with.
+ * @returns True if the event was engaged with.
+ */
+async function engageWithCard(
+  followers: Friend[],
+  card: FeedCard,
+): Promise<boolean> {
+  const client = await getClient();
+  if (card.cardType === "FOLLOW") {
+    const user = followers.find((user) => user.userId === card.userId);
+    if (!user?.isFollowing) {
+      await client.followUser(card.userId);
+      return true;
+    }
+  } else if (
+    card.cardType === "KUDOS_OFFER" ||
+    card.cardType === "SHARE_SENTENCE_OFFER"
+  ) {
+    if (!card.reactionType) {
+      await client.sendReaction(card.eventId, getReaction(card));
+      return true;
+    }
+  }
+  return false;
+}
 
 /**
  * Returns the reaction on the card, or picks an appripriate one.
@@ -67,54 +79,32 @@ function getSummary(card: FeedCard): string {
 }
 
 /**
- * Engages with the event, following the user or sending a reaction.
+ * Command line interface for interacting with the feed.
  *
- * @param client Duolingo client.
- * @param followers List of followers, to skip in follow-backs.
- * @param card Card to engage with.
- * @returns True if the event was engaged with.
+ * @ignore missing-explicit-type
  */
-async function engage(
-  client: DuolingoClient,
-  followers: Friend[],
-  card: FeedCard,
-): Promise<boolean> {
-  if (card.cardType === "FOLLOW") {
-    const user = followers.find((user) => user.userId === card.userId);
-    if (!user?.isFollowing) {
-      await client.followUser(card.userId);
-      return true;
-    }
-  } else if (
-    card.cardType === "KUDOS_OFFER" ||
-    card.cardType === "SHARE_SENTENCE_OFFER"
-  ) {
-    if (!card.reactionType) {
-      await client.sendReaction(card.eventId, getReaction(card));
-      return true;
-    }
-  }
-  return false;
-}
+export const command = new Command()
+  .description("Prints and interacts with the feed.")
+  .example("duolingo feed", "Prints the feed.")
+  .example("duolingo feed --engage", "Engages with the feed.")
+  .example("duolingo feed --json | jq", "Query JSON over the feed.")
+  .option("--engage", "Engage with the feed events.")
+  .option("--json", "Output the feed as JSON.")
+  .action(async ({ engage, json }) => {
+    const client = await getClient();
+    const followers = await client.getFollowers();
+    const cards = await client.getFeedCards();
+    if (json) console.log(JSON.stringify(cards, undefined, 2));
+    await pool(
+      cards,
+      async (card) => {
+        if (!engage || await engageWithCard(followers, card)) {
+          if (!json) console.log(`${getEmoji(card)} ${getSummary(card)}`);
+        }
+      },
+    );
+  });
 
 if (import.meta.main) {
-  const spec = {
-    _: ["username", "token"],
-    boolean: ["engage", "json"],
-  } as const;
-  const args = parseArgs(Deno.args, spec);
-  const [username, token] = getRequired(args, spec);
-
-  const client = new DuolingoClient(username, token);
-  const followers = await client.getFollowers();
-  const feed = await client.getFeed();
-  if (args.json) console.log(JSON.stringify(feed, undefined, 2));
-  await pool(
-    feed,
-    async (card) => {
-      if (!args.engage || await engage(client, followers, card)) {
-        if (!args.json) console.log(getEmoji(card), getSummary(card));
-      }
-    },
-  );
+  await command.parse();
 }

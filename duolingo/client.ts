@@ -24,7 +24,7 @@ export class DuolingoClient {
   /**
    * Gets the user ID for the given username.
    *
-   * @returns A promise that resolves to the numeric user ID.
+   * @returns The numeric user ID.
    */
   async getUserId(): Promise<number> {
     if (!this.username) throw new Error("Username is required");
@@ -38,7 +38,7 @@ export class DuolingoClient {
   /**
    * Gets the list of users that the user is following.
    *
-   * @returns A promise that resolves to the list of users that the user is following.
+   * @returns List of users that the user is following.
    */
   async getFollowing(): Promise<Friend[]> {
     const me = await this.getUserId();
@@ -50,7 +50,7 @@ export class DuolingoClient {
   /**
    * Gets the list of users that are following the user.
    *
-   * @returns A promise that resolves to the list of users that are following the user.
+   * @returns List of users that are following the user.
    */
   async getFollowers(): Promise<Friend[]> {
     const me = await this.getUserId();
@@ -62,9 +62,9 @@ export class DuolingoClient {
   /**
    * Gets the feed for the user.
    *
-   * @returns A promise that resolves to the list of feed cards.
+   * @returns List of feed cards.
    */
-  async getFeed(): Promise<FeedCard[]> {
+  async getFeedCards(): Promise<FeedCard[]> {
     const me = await this.getUserId();
     return (await this.client.get<{ feed: { feedCards: FeedCard[] }[] }>(
       `/2017-06-30/friends/users/${me}/feed/v2?uiLanguage=en`,
@@ -74,7 +74,7 @@ export class DuolingoClient {
   /**
    * Gets the league for the user.
    *
-   * @returns A promise that resolves to the league that the user is currently in.
+   * @returns The league that the user is currently in.
    */
   async getLeague(): Promise<League> {
     const me = await this.getUserId();
@@ -88,10 +88,7 @@ export class DuolingoClient {
    *
    * @param eventId The ID of the event to react to.
    */
-  async sendReaction(
-    eventId: string,
-    reaction: Reaction,
-  ): Promise<void> {
+  async sendReaction(eventId: string, reaction: Reaction): Promise<void> {
     await this.client.post(`/card/reaction`, {
       groupId: eventId,
       reaction: reaction.toUpperCase(),
@@ -105,11 +102,8 @@ export class DuolingoClient {
    * Follows a user.
    *
    * @param userId The numeric ID of the user to follow.
-   * @returns A promise that resolves when the user has been followed.
    */
-  async followUser(
-    userId: number,
-  ): Promise<void> {
+  async followUser(userId: number): Promise<void> {
     const me = await this.getUserId();
     await this.client.post(
       `/2017-06-30/friends/users/${me}/follow/${userId}`,
@@ -121,11 +115,8 @@ export class DuolingoClient {
    * Unfollows a user.
    *
    * @param userId The numeric ID of the user to unfollow.
-   * @returns A promise that resolves when the user has been unfollowed.
    */
-  async unfollowUser(
-    userId: number,
-  ): Promise<void> {
+  async unfollowUser(userId: number): Promise<void> {
     const me = await this.getUserId();
     await this.client.delete(
       `/2017-06-30/friends/users/${me}/follow/${userId}`,
