@@ -179,8 +179,11 @@ export const command = new Command()
   .option("--json", "Output the EXIF information as JSON.")
   .action(async ({ copy, json }, ...photos) => {
     for await (const photo of (photos.length > 0 ? photos : allPhotos())) {
-      const data = await getData(photo);
-      if (copy) await copyExif(photo);
+      let data = await getData(photo);
+      if (copy) {
+        await copyExif(photo);
+        data = await getData(photo);
+      }
       if (json) console.log(JSON.stringify(data));
       else console.log(`🖼  ${data.title} ${check(data)}`);
     }
