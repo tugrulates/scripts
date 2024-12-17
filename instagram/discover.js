@@ -1,30 +1,4 @@
 // deno-lint-ignore-file no-unused-vars
-/**
- * Discover relevant accounts to follow on Instagram.
- *
- * Paste the whole file into web console, and call these functions.
- *
- * ### On any page
- *
- * ```js
- * openNotifications();
- * openNotificationFilters();
- * enableFollowsFilter();
- * applyFilters();
- * const profiles = getProfiles();
- * profiles;
- * ```
- *
- * ### On a post page
- *
- * ```js
- * openPostLikes();
- * scrollToLikesDialogBottom();
- * const profiles = getProfiles();
- * profiles;
- * ```
- * @module
- */
 
 /** Open likes dialog for the current post. */
 function openPostLikes() {

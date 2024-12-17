@@ -29,17 +29,17 @@ Description:
 
 Options:
 
-  -h, --help            - Show this help.                                                                         
-  --filter    <filter>  - Categories to filter results on.   (Values: "celebrities", "film", "journalism", "nude",
-                                                             "black-and-white", "still-life", "people",           
-                                                             "landscapes", "city-and-architecture", "abstract",   
-                                                             "animals", "macro", "travel", "fashion",             
-                                                             "commercial", "concert", "sport", "nature",          
-                                                             "performing-arts", "family", "street", "underwater", 
-                                                             "food", "fine-art", "wedding", "transportation",     
-                                                             "aerial", "urban-exploration", "night", "boudoir",   
-                                                             "other")                                             
-  --json                - Output the list of users as JSON.                                                       
+  -h, --help              - Show this help.                                                                         
+  --category  <category>  - Categories to filter results on.   (Values: "celebrities", "film", "journalism", "nude",
+                                                               "black-and-white", "still-life", "people",           
+                                                               "landscapes", "city-and-architecture", "abstract",   
+                                                               "animals", "macro", "travel", "fashion",             
+                                                               "commercial", "concert", "sport", "nature",          
+                                                               "performing-arts", "family", "street", "underwater", 
+                                                               "food", "fine-art", "wedding", "transportation",     
+                                                               "aerial", "urban-exploration", "night", "boudoir",   
+                                                               "other")                                             
+  --json                  - Output the list of users as JSON.                                                       
 
 Examples:
 

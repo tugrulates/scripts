@@ -1,20 +1,3 @@
-/**
- * Pull follower information on Instagram.
- *
- * ### On any page
- *
- * Paste the whole file into web console, and wait for results.
- *
- * ```js
- * follows.following;
- * follows.followers;
- * follows.dontFollowBack;
- * follows.notFollowingBack;
- * copy(follows);
- * ```
- * @module
- */
-
 /** Fetches all followers and followed accounts, as well as their differences. */
 async function getFollows() {
   async function query(hash, variables, getData) {
