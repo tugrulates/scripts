@@ -1,26 +1,4 @@
 // deno-lint-ignore-file no-unused-vars
-/**
- * Pull post insights on Instagram.
- *
- * Paste the whole file into web console, and call these functions.
- *
- * ### On a profile page
- *
- * ```js
- * const posts = getPosts();
- * posts;
- * window.open(posts[0]);
- * ```
- *
- * ### On a post page
- *
- * ```js
- * openPostMetrics();
- * const metrics = getMetrics();
- * metrics;
- * ```
- * @module
- */
 
 /** URLs to all posts loaded in the current profile page. */
 function getPosts() {

@@ -23,7 +23,7 @@ export class FiveHundredPxClient {
    * Retrieves photos for a given user.
    *
    * @param username The username of the user whose photos are to be retrieved.
-   * @returns A promise that resolves to the user's photos.
+   * @returns The user's photos.
    */
   async getPhotos(username: string): Promise<Photo[]> {
     return await this.client.queryPaginated<
@@ -38,7 +38,7 @@ export class FiveHundredPxClient {
       },
       Photo
     >(
-      ["photos", "photo"],
+      ["graphql/photos", "graphql/photo"],
       (data) => data.user.photos,
       (data) =>
         data.user.photos.pageInfo.hasNextPage
@@ -52,7 +52,7 @@ export class FiveHundredPxClient {
    * Retrieves the list of users followed by a given user.
    *
    * @param username The username of the user whose following list is to be retrieved.
-   * @returns A promise that resolves to the list of users followed by the given user.
+   * @returns The list of users followed by the given user.
    */
   async getFollowing(username: string): Promise<User[]> {
     return await this.client.queryPaginated<
@@ -69,7 +69,7 @@ export class FiveHundredPxClient {
       },
       User
     >(
-      ["following", "user"],
+      ["graphql/following", "graphql/user"],
       (data) => data.user.following.users,
       (data) =>
         data.user.following.users.pageInfo.hasNextPage
@@ -83,7 +83,7 @@ export class FiveHundredPxClient {
    * Retrieves the list of followers for a given user.
    *
    * @param username The username of the user whose followers are to be retrieved.
-   * @returns A promise that resolves to the list of followers of the given user.
+   * @returns The list of followers of the given user.
    */
   async getFollowers(username: string): Promise<User[]> {
     return await this.client.queryPaginated<
@@ -100,7 +100,7 @@ export class FiveHundredPxClient {
       },
       User
     >(
-      ["followers", "user"],
+      ["graphql/followers", "graphql/user"],
       (data) => data.user.followedBy.users,
       (data) =>
         data.user.followedBy.users.pageInfo.hasNextPage
@@ -116,7 +116,7 @@ export class FiveHundredPxClient {
    * @param options Configuration options.
    * @param options.limit The maximum number of items to retrieve.
    * @param options.categories The categories to filter the feed by.
-   * @returns A promise that resolves to the "For You" feed photos.
+   * @returns The "For You" feed photos.
    */
   async getForYouFeed(
     options: { limit?: number; categories?: Category[] } = {},
@@ -131,7 +131,7 @@ export class FiveHundredPxClient {
       },
       { cardNode: Photo }
     >(
-      ["foryou"],
+      ["graphql/foryou"],
       (data) => data.feed,
       (
         data,

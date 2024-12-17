@@ -1,9 +1,22 @@
 {
   "workspace": [
+    "500px",
+    "duolingo",
     "photos"
   ],
   "tasks": {
-    "readme": "deno doc --lint --json */*.[jt]s | jq -rf README.jq | tail -r | tail -n +2 | tail -r > README.md",
+    "build": "deno task --recursive compile",
+    "install": {
+      "command": "mkdir -p $HOME/.local/bin && cp dist/* $HOME/.local/bin",
+      "dependencies": ["build"]
+    },
     "test": "deno test --doc */*.ts"
+  },
+  "imports": {
+    "jsr:@cliffy/ansi/colors": "jsr:@cliffy/ansi@1.0.0-rc.7/colors",
+    "jsr:@cliffy/command": "jsr:@cliffy/command@1.0.0-rc.7",
+    "jsr:@cliffy/flags": "jsr:@cliffy/flags@1.0.0-rc.7",
+    "jsr:@cliffy/prompt": "jsr:@cliffy/prompt@1.0.0-rc.7",
+    "jsr:@cliffy/table": "jsr:@cliffy/table@1.0.0-rc.7"
   }
 }
