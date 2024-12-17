@@ -10,7 +10,7 @@ const CONFIG_PATH = `${Deno.env.get("HOME")}/.scripts/config.db`;
  * Options are cached in a key-value store, and not prompted if already set.
  */
 export class Config {
-  readonly key: [string, string];
+  private key: [string, string];
 
   /**
    * Create a new configuration option.
