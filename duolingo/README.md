@@ -9,10 +9,10 @@ Description:
 
 Options:
 
-  -h, --help              - Show this help.                            
-  --username  <username>  - Username.                        (required)
-  --token     <token>     - JWT token.                       (required)
-  --clear                 - Clear the cached configuration.            
+  -h, --help              - Show this help.                  
+  --username  <username>  - Username.                        
+  --token     <token>     - JWT token.                       
+  --clear                 - Clear the cached configuration.  
 
 Commands:
 
@@ -29,7 +29,7 @@ Examples:
 ## feed
 
 ```
-Usage: duolingo feed --username <username> --token <token>
+Usage: duolingo feed
 
 Description:
 
@@ -37,11 +37,11 @@ Description:
 
 Options:
 
-  -h, --help              - Show this help.                         
-  --username  <username>  - Username.                     (required)
-  --token     <token>     - JWT token.                    (required)
-  --engage                - Engage with the feed events.            
-  --json                  - Output the feed as JSON.                
+  -h, --help              - Show this help.               
+  --username  <username>  - Username.                     
+  --token     <token>     - JWT token.                    
+  --engage                - Engage with the feed events.  
+  --json                  - Output the feed as JSON.      
 
 Examples:
 
@@ -53,7 +53,7 @@ Examples:
 ## follows
 
 ```
-Usage: duolingo follows --username <username> --token <token>
+Usage: duolingo follows
 
 Description:
 
@@ -61,12 +61,12 @@ Description:
 
 Options:
 
-  -h, --help              - Show this help.                                     
-  --username  <username>  - Username.                                 (required)
-  --token     <token>     - JWT token.                                (required)
-  --follow                - Follow users who follow.                            
-  --unfollow              - Unfollow users who don't follow.                    
-  --json                  - Output the follower information as JSON.            
+  -h, --help              - Show this help.                           
+  --username  <username>  - Username.                                 
+  --token     <token>     - JWT token.                                
+  --follow                - Follow users who follow.                  
+  --unfollow              - Unfollow users who don't follow.          
+  --json                  - Output the follower information as JSON.  
 
 Examples:
 
@@ -83,7 +83,7 @@ Examples:
 ## league
 
 ```
-Usage: duolingo league --username <username> --token <token>
+Usage: duolingo league
 
 Description:
 
@@ -91,11 +91,11 @@ Description:
 
 Options:
 
-  -h, --help              - Show this help.                        
-  --username  <username>  - Username.                    (required)
-  --token     <token>     - JWT token.                   (required)
-  --follow                - Follow users in the league.            
-  --json                  - Output the league as JSON.             
+  -h, --help              - Show this help.              
+  --username  <username>  - Username.                    
+  --token     <token>     - JWT token.                   
+  --follow                - Follow users in the league.  
+  --json                  - Output the league as JSON.   
 
 Examples:
 

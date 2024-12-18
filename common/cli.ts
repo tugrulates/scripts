@@ -35,19 +35,17 @@ export class Config {
    */
   async option(): Promise<
     {
-      required: true;
       value: (value: string) => Promise<string>;
       default?: string;
     }
   > {
-    const required = true;
     const value = async (value: string) => {
       await this.set(value);
       return await this.get();
     };
     const defaultValue = await this.get(false);
-    if (!defaultValue) return { required, value };
-    return { required, value, default: defaultValue };
+    if (!defaultValue) return { value };
+    return { value, default: defaultValue };
   }
 
   /**
