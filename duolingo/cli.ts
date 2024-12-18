@@ -19,15 +19,11 @@ export async function getClient(): Promise<DuolingoClient> {
  * Command line interface for Duolingo.
  *
  * @ignore missing-explicit-type
- * @todo Use `"secret"` type from cliffy when it's available.
  */
 export const command = new Command()
   .name("duolingo")
   .description("Interact with Duolingo.")
-  .example(
-    "duolingo --username <username> --token <token> feed",
-    "Configure Duolingo client.",
-  )
+  .example("duolingo --username <username> --token <token>", "Configure.")
   .example("duolingo --clear", "Clear the cached configuration.")
   .usage("<command> [options]")
   .globalOption(
