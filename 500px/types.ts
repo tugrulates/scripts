@@ -1,8 +1,6 @@
 import { CATEGORIES } from "./data.ts";
 
-/**
- * A user on 500px.
- */
+/** A user on 500px. */
 export interface User {
   /** The user's unique numeric ID. */
   id: string;
@@ -12,9 +10,7 @@ export interface User {
   displayName: string;
 }
 
-/**
- * A photo submitted to 500px and its stats.
- */
+/** A photo submitted to 500px and its stats. */
 export interface Photo {
   /** The unique identifier of the photo. */
   id: string;
@@ -38,9 +34,7 @@ export interface Photo {
   photographer: User;
 }
 
-/**
- * A photo category on 500px.
- */
+/** A photo category on 500px. */
 export interface Category {
   /** The numeric ID of the category. */
   id: number;

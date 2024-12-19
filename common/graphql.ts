@@ -7,9 +7,7 @@ import {
 import { retryExchange } from "npm:@urql/exchange-retry";
 import { RequestError } from "./request.ts";
 
-/**
- * A GraphQL client for making queries and paginated queries.
- */
+/** A GraphQL client for making queries and paginated queries. */
 export class GraphQLClient {
   private client;
 

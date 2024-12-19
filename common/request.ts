@@ -1,8 +1,6 @@
 import { retry, type RetryOptions } from "jsr:@std/async";
 
-/**
- * Represents an error that occurs during a request.
- */
+/** Represents an error that occurs during a request. */
 export class RequestError extends Error {
   /**
    * Creates an instance of RequestError.
@@ -15,9 +13,7 @@ export class RequestError extends Error {
   }
 }
 
-/**
- * A client for making JSON-based HTTP requests.
- */
+/** A client for making JSON-based HTTP requests. */
 export class JsonClient {
   /**
    * Creates an instance of the JsonClient with the specified URL and options.
@@ -25,8 +21,12 @@ export class JsonClient {
    * @param url The base URL to which the requests are made.
    * @param options Parameters for the requests.
    * @param options.token Optional token for authentication.
+   * @param options.referrer Optional referrer for the requests.
    */
-  constructor(private url: string, private options: { token?: string }) {}
+  constructor(
+    private url: string,
+    private options: { token?: string; referrer?: string } = {},
+  ) {}
 
   /**
    * Sends a GET request to the specified path.
@@ -37,10 +37,10 @@ export class JsonClient {
    */
   async get<T>(path: string): Promise<T> {
     const { response } = await request<T>(`${this.url}${path}`, {
-      token: this.options.token,
       headers: {
         "Accept": "application/json; charset=UTF-8",
       },
+      ...this.options,
     });
     return await response.json();
   }
@@ -61,7 +61,7 @@ export class JsonClient {
         "Content-Type": "application/json; charset=UTF-8",
       },
       body,
-      token: this.options.token,
+      ...this.options,
     });
     return await response.json();
   }
@@ -79,7 +79,7 @@ export class JsonClient {
       headers: {
         "Accept": "application/json; charset=UTF-8",
       },
-      token: this.options.token,
+      ...this.options,
     });
     return await response.json();
   }
@@ -95,6 +95,7 @@ interface RequestOptions {
   headers?: Record<string, string>;
   retry?: RetryOptions;
   token?: string;
+  referrer?: string;
   userAgent?: string;
 }
 
@@ -123,6 +124,7 @@ async function request<T>(
         ...(options.token
           ? { "Authorization": `Bearer ${options.token}` }
           : {}),
+        ...(options.referrer ? { "Referer": options.referrer } : {}),
         "User-Agent": options.userAgent ??
           "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.1.1 Safari/605.1.15",
       },

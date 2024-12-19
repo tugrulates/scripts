@@ -2,6 +2,7 @@
   "workspace": [
     "500px",
     "duolingo",
+    "lonely-planet",
     "photos"
   ],
   "tasks": {
