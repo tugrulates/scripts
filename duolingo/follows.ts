@@ -60,13 +60,19 @@ export const command = new Command()
       if (follow) {
         await pool(
           result.notFollowingBack,
-          async (user) => await client.followUser(user.userId),
+          async (user) => {
+            await client.followUser(user.userId);
+            if (!json) console.log(`✅ Followed ${user.username}.`);
+          },
         );
       }
       if (unfollow) {
         await pool(
           result.dontFollowBack,
-          async (user) => await client.unfollowUser(user.userId),
+          async (user) => {
+            await client.unfollowUser(user.userId);
+            if (!json) console.log(`❌ Unfollowed ${user.username}.`);
+          },
         );
       }
       result = await getFollows();
