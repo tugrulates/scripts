@@ -18,7 +18,6 @@ export class DuolingoClient {
    */
   constructor(private username: string, token: string) {
     this.client = new JsonClient("https://www.duolingo.com", { token });
-    this.username = username;
   }
 
   /**

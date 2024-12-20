@@ -8,9 +8,7 @@ import { command as league } from "./league.ts";
 const username = new Config("username");
 const token = new Config("token", { secret: true });
 
-/**
- * Duolingo client built from common CLI options.
- */
+/** Duolingo client built from common CLI options. */
 export async function getClient(): Promise<DuolingoClient> {
   return new DuolingoClient(await username.get(), await token.get());
 }

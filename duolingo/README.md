@@ -22,8 +22,8 @@ Commands:
 
 Examples:
 
-  duolingo --username <username> --token <token> feed Configure Duolingo client.     
-  duolingo --clear                                    Clear the cached configuration.
+  duolingo --username <username> --token <token> Configure.                     
+  duolingo --clear                               Clear the cached configuration.
 ```
 
 ## feed

@@ -1,13 +1,9 @@
 import { LANGUAGES, LEAGUES, REACTIONS } from "./data.ts";
 
-/**
- * Code for a language track on Duolingo.
- */
+/** Code for a language track on Duolingo. */
 export type LanguageCode = keyof typeof LANGUAGES;
 
-/**
- * A user other than the current user on Duolingo.
- */
+/** A user other than the current user on Duolingo. */
 export interface Friend {
   /** Whether the user can be followed. */
   canFollow: boolean;
@@ -35,14 +31,10 @@ export interface Friend {
   username: string;
 }
 
-/**
- * A reaction to a Duolingo feed event.
- */
+/** A reaction to a Duolingo feed event. */
 export type Reaction = keyof typeof REACTIONS;
 
-/**
- * A Duolingo feed card, like a milestone or league promotion.
- */
+/** A Duolingo feed card, like a milestone or league promotion. */
 export interface FeedCard {
   /** The body text of the card. */
   body: string;
@@ -98,9 +90,7 @@ export interface FeedCard {
   userId: number;
 }
 
-/**
- * A Duolingo league and its user rankings.
- */
+/** A Duolingo league and its user rankings. */
 export interface League {
   /** Date when the league started. */
   creation_date: string;
@@ -110,9 +100,7 @@ export interface League {
   rankings: LeagueUser[];
 }
 
-/**
- * A user in a Duolingo league.
- */
+/** A user in a Duolingo league. */
 export interface LeagueUser {
   /** The user's profile picture URL. */
   avatar_url: string;
