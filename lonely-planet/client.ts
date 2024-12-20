@@ -100,7 +100,7 @@ export class LonelyPlanetClient {
         body,
       )).results[0];
       if ("error" in results) {
-        throw new Error(`{data.results[0].error}`);
+        throw new Error(results.error);
       } else if ("hits" in results) {
         for (const hit of results.hits) {
           const document = hit.document;
