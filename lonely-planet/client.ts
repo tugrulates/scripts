@@ -1,7 +1,18 @@
 import { toPascalCase } from "jsr:@std/text";
 import * as uuid from "jsr:@std/uuid";
 import { JsonClient } from "../common/request.ts";
-import { Attraction, Destination, SearchResults, Story } from "./types.ts";
+import { Attraction, Destination, Story } from "./types.ts";
+
+/** A results page for a query on the Lonely Planet. */
+interface Results {
+  hits: [{ document: Destination | Attraction | Story }];
+}
+
+/** A Typesense server error. */
+interface Error {
+  code: number;
+  error: string;
+}
 
 /**
  * Client for interacting with the Lonely Planet API.
@@ -83,7 +94,7 @@ export class LonelyPlanetClient {
         }],
       };
       const results = (await this.client.post<
-        { results: (SearchResults | Error)[] }
+        { results: (Results | Error)[] }
       >(
         `/multi_search?x-typesense-api-key=${this.token}`,
         body,
@@ -95,7 +106,7 @@ export class LonelyPlanetClient {
           const document = hit.document;
           // ignore documents from old ID formats, as these are duplicates
           if (uuid.validate(document.id)) {
-            // Cleanup types.
+            // cleanup types
             let type = toPascalCase(document.type);
             if (type === "" && "breadcrumb" in document) {
               const parentType = document.breadcrumb.at(-1)?.type;
