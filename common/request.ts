@@ -85,7 +85,10 @@ export class JsonClient {
   }
 }
 
-const TOO_MANY_REQUESTS = 429;
+const RETRYABLE_STATUSES = [
+  429, // Too many requests
+  504, // Gateway timeout
+];
 
 type RequestMethod = "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
 interface RequestOptions {
@@ -134,9 +137,9 @@ async function request<T>(
           : JSON.stringify(options.body))
         : undefined,
     });
-    if (response.status === TOO_MANY_REQUESTS) {
+    if (RETRYABLE_STATUSES.includes(response.status)) {
       await response.body?.cancel();
-      throw new Error("Too many requests");
+      throw new Error(response.statusText);
     }
     return response;
   }, options.retry);
