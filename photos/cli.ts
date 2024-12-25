@@ -2,7 +2,7 @@ import { colors } from "jsr:@cliffy/ansi/colors";
 import { Command } from "jsr:@cliffy/command";
 import $ from "jsr:@david/dax";
 import { basename, dirname, join } from "jsr:@std/path";
-import { Exif, Photo } from "./types.ts";
+import type { Exif, Photo } from "./types.ts";
 
 const SOURCE_FILE = "source.jpg";
 const EXIFTOOL = ["exiftool", "-q", "-overwrite_original_in_place"];
