@@ -1,4 +1,4 @@
-import { CATEGORIES } from "./data.ts";
+import type { CATEGORIES } from "./data.ts";
 
 /** A user on 500px. */
 export interface User {

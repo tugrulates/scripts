@@ -3,7 +3,7 @@ import { Table } from "jsr:@cliffy/table";
 import { Config } from "../common/cli.ts";
 import { LonelyPlanetClient } from "./client.ts";
 import { EMOJIS } from "./data.ts";
-import { Attraction, Destination } from "./types.ts";
+import type { Attraction, Destination } from "./types.ts";
 
 const endpoint = new Config("endpoint");
 const token = new Config("token", { secret: true });

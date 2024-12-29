@@ -1,5 +1,5 @@
 import { JsonClient } from "../common/request.ts";
-import { FeedCard, Friend, League, Reaction } from "./types.ts";
+import type { FeedCard, Friend, League, Reaction } from "./types.ts";
 
 /**
  * A client for interacting with the Duolingo API.

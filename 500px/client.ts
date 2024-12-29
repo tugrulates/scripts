@@ -1,5 +1,5 @@
 import { GraphQLClient } from "../common/graphql.ts";
-import { Category, Photo, User } from "./types.ts";
+import type { Category, Photo, User } from "./types.ts";
 
 /**
  * Client for interacting with the 500px GraphQL API.
