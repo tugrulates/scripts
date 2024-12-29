@@ -1,10 +1,5 @@
-import {
-  AnyVariables,
-  cacheExchange,
-  Client,
-  fetchExchange,
-} from "npm:@urql/core";
-import { retryExchange } from "npm:@urql/exchange-retry";
+import { AnyVariables, cacheExchange, Client, fetchExchange } from "@urql/core";
+import { retryExchange } from "@urql/exchange-retry";
 import { RequestError } from "./request.ts";
 
 /** A GraphQL client for making queries and handling pagination. */

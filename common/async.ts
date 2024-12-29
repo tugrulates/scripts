@@ -1,4 +1,4 @@
-import { pooledMap as denoPooledMap } from "jsr:@std/async";
+import { pooledMap as denoPooledMap } from "@std/async";
 
 /**
  * Maps an array of data to an array of results with concurrency control.

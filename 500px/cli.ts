@@ -1,5 +1,5 @@
-import { Command, EnumType } from "jsr:@cliffy/command";
-import { Table } from "jsr:@cliffy/table";
+import { Command, EnumType } from "@cliffy/command";
+import { Table } from "@cliffy/table";
 import { FiveHundredPxClient } from "./client.ts";
 import { CATEGORIES } from "./data.ts";
 import type { Photo } from "./types.ts";
