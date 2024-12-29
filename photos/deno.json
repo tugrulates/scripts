@@ -1,4 +1,7 @@
 {
+  "name": "@tugrulates/photos",
+  "version": "0.1.0",
+  "exports": "./mod.ts",
   "tasks": {
     "compile": "deno compile -RWE --allow-run=exiftool --no-prompt -o=../dist/ cli.ts",
     "readme": "deno run -A --unstable-kv ../common/readme.ts > README.md"

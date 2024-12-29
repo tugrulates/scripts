@@ -1,20 +1,20 @@
 bug:
-  - head-branch: "^fix/"
+  - head-branch: ["^bug/", "^fix/", "^bugfix/"]
 
 feature:
-  - head-branch: "^feature/"
+  - head-branch: ["^feat/", "^feature/", "^new/"]
 
 dependencies:
-  - head-branch: ^deps/"
+  - head-branch: ["^dep/", "^deps/"]
 
 documentation:
-  - head-branch: ^doc/"
+  - head-branch: ["^doc/", "^docs/", "^readme/"]
 
 performance:
-  - head-branch: "^perf/"
+  - head-branch: ["^perf/", "^optimize/"]
 
 refactor:
-  - head-branch: "^refactor/"
+  - head-branch: ["^lint/", "^nit/", "^refactor/", "^tidy/"]
 
 testing:
-  - head-branch: "^test/"
+  - head-branch: ["^test/", "^testing/", "^tests/"]

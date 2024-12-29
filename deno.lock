@@ -24,6 +24,7 @@
     "jsr:@std/encoding@~1.0.5": "1.0.5",
     "jsr:@std/fmt@1": "1.0.3",
     "jsr:@std/fmt@~1.0.2": "1.0.3",
+    "jsr:@std/fs@*": "1.0.6",
     "jsr:@std/fs@1": "1.0.6",
     "jsr:@std/internal@^1.0.5": "1.0.5",
     "jsr:@std/io@0.221": "0.221.0",
@@ -100,7 +101,7 @@
         "jsr:@david/path",
         "jsr:@david/which",
         "jsr:@std/fmt@1",
-        "jsr:@std/fs",
+        "jsr:@std/fs@1",
         "jsr:@std/io@0.221",
         "jsr:@std/path@1",
         "jsr:@std/streams@0.221"
@@ -109,7 +110,7 @@
     "@david/path@0.2.0": {
       "integrity": "f2d7aa7f02ce5a55e27c09f9f1381794acb09d328f8d3c8a2e3ab3ffc294dccd",
       "dependencies": [
-        "jsr:@std/fs",
+        "jsr:@std/fs@1",
         "jsr:@std/path@1"
       ]
     },

@@ -1,7 +1,7 @@
 import { toPascalCase } from "jsr:@std/text";
 import * as uuid from "jsr:@std/uuid";
 import { JsonClient } from "../common/request.ts";
-import { Attraction, Destination, Story } from "./types.ts";
+import type { Attraction, Destination, Story } from "./types.ts";
 
 /** A results page for a query on the Lonely Planet. */
 interface Results {

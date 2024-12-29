@@ -1,4 +1,7 @@
 {
+  "name": "@tugrulates/500px",
+  "version": "0.1.0",
+  "exports": "./mod.ts",
   "tasks": {
     "compile": "deno compile -N=api.500px.com --no-prompt --include=graphql -o=../dist/ cli.ts",
     "readme": "deno run -A --unstable-kv ../common/readme.ts > README.md"

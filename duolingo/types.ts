@@ -1,4 +1,4 @@
-import { LANGUAGES, LEAGUES, REACTIONS } from "./data.ts";
+import type { LANGUAGES, LEAGUES, REACTIONS } from "./data.ts";
 
 /** Code for a language track on Duolingo. */
 export type LanguageCode = keyof typeof LANGUAGES;
