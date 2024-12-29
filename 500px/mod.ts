@@ -1,6 +1,6 @@
-import { command } from "./cli.ts";
+import { main } from "./cli.ts";
 export * from "./client.ts";
 
 if (import.meta.main) {
-  await command.parse();
+  await main();
 }

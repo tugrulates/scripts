@@ -22,5 +22,5 @@ function trimLines(text: string) {
 const entrypoint = join(Deno.cwd(), "cli.ts");
 if (await exists(entrypoint)) {
   const cli = await import(entrypoint);
-  logReadme(cli.command);
+  logReadme(await cli.getCommand());
 }

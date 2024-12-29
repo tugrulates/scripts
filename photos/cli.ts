@@ -37,33 +37,31 @@ function check(data: Photo) {
   return "";
 }
 
-/**
- * Command line interface for managing photos.
- *
- * @ignore missing-explicit-type
- */
-export const command = new Command()
-  .name("photos")
-  .example("photos", "Lists for all photos under current directory.")
-  .example("photos [directory] --json", "Data for a photo with all sizes.")
-  .example("photos [file.jpg] --json", "Data for a single size file.")
-  .example("photos [directory] --copy", "Copy EXIF data to all sizes.")
-  .description("Manage photos.")
-  .arguments("[photos...:file]")
-  .option("--copy", "Copy the EXIF from source jpg file to other jpg files.")
-  .option("--json", "Output the EXIF information as JSON.")
-  .action(async ({ copy, json }, ...photos) => {
-    for await (const photo of (photos.length > 0 ? photos : allPhotos())) {
-      let data = await getData(photo);
-      if (copy) {
-        await copyExif(photo);
-        data = await getData(photo);
+export function getCommand() {
+  return new Command()
+    .name("photos")
+    .example("photos", "Lists for all photos under current directory.")
+    .example("photos [directory] --json", "Data for a photo with all sizes.")
+    .example("photos [file.jpg] --json", "Data for a single size file.")
+    .example("photos [directory] --copy", "Copy EXIF data to all sizes.")
+    .description("Manage photos.")
+    .arguments("[photos...:file]")
+    .option("--copy", "Copy the EXIF from source jpg file to other jpg files.")
+    .option("--json", "Output the EXIF information as JSON.")
+    .action(async ({ copy, json }, ...photos) => {
+      for await (const photo of (photos.length > 0 ? photos : allPhotos())) {
+        let data = await getData(photo);
+        if (copy) {
+          await copyExif(photo);
+          data = await getData(photo);
+        }
+        if (json) console.log(JSON.stringify(data));
+        else console.log(`🖼  ${data.title} ${check(data)}`);
       }
-      if (json) console.log(JSON.stringify(data));
-      else console.log(`🖼  ${data.title} ${check(data)}`);
-    }
-  });
+    });
+}
 
-if (import.meta.main) {
+export async function main() {
+  const command = getCommand();
   await command.parse();
 }
