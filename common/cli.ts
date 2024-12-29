@@ -1,6 +1,6 @@
-import { parseFlags } from "jsr:@cliffy/flags";
-import { Input, Secret } from "jsr:@cliffy/prompt";
-import { basename, dirname } from "jsr:@std/path";
+import { parseFlags } from "@cliffy/flags";
+import { Input, Secret } from "@cliffy/prompt";
+import { basename, dirname } from "@std/path";
 
 const CONFIG_PATH = `${Deno.env.get("HOME")}/.scripts/config.db`;
 

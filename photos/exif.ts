@@ -1,5 +1,5 @@
-import $ from "jsr:@david/dax";
-import { basename, dirname, join } from "jsr:@std/path";
+import $ from "@david/dax";
+import { basename, dirname, join } from "@std/path";
 import { getFiles, isPhotoDirectory } from "./file.ts";
 import type { Exif, Photo } from "./types.ts";
 

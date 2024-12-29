@@ -1,5 +1,5 @@
-import { colors } from "jsr:@cliffy/ansi/colors";
-import { Command } from "jsr:@cliffy/command";
+import { colors } from "@cliffy/ansi/colors";
+import { Command } from "@cliffy/command";
 import { copyExif, getData } from "./exif.ts";
 import { allPhotos } from "./file.ts";
 import type { Photo } from "./types.ts";

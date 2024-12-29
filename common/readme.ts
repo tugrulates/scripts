@@ -1,6 +1,6 @@
-import { Command } from "jsr:@cliffy/command";
-import { exists } from "jsr:@std/fs";
-import { join } from "jsr:@std/path";
+import { Command } from "@cliffy/command";
+import { exists } from "@std/fs";
+import { join } from "@std/path";
 
 /**
  * Print out a README file from a command and its subcommands recursively.

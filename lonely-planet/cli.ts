@@ -1,5 +1,5 @@
-import { Command } from "jsr:@cliffy/command";
-import { Table } from "jsr:@cliffy/table";
+import { Command } from "@cliffy/command";
+import { Table } from "@cliffy/table";
 import { Config } from "../common/cli.ts";
 import { LonelyPlanetClient } from "./client.ts";
 import { EMOJIS } from "./data.ts";

@@ -1,4 +1,4 @@
-import { retry, type RetryOptions } from "jsr:@std/async";
+import { retry, type RetryOptions } from "@std/async";
 
 /** Represents an error that occurs during a request. */
 export class RequestError extends Error {

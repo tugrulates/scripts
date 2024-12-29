@@ -1,5 +1,5 @@
-import { toPascalCase } from "jsr:@std/text";
-import * as uuid from "jsr:@std/uuid";
+import { toPascalCase } from "@std/text";
+import * as uuid from "@std/uuid";
 import { JsonClient } from "../common/request.ts";
 import type { Attraction, Destination, Story } from "./types.ts";
 
