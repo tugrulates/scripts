@@ -1,6 +1,10 @@
+/**
+Test doc
+
+@module
+ */
+
 import { main } from "./cli.ts";
 export * from "./client.ts";
 
-if (import.meta.main) {
-  await main();
-}
+if (import.meta.main) await main();

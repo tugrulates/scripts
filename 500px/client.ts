@@ -1,4 +1,4 @@
-import { GraphQLClient } from "../common/graphql.ts";
+import { GraphQLClient } from "@tugrulates/request";
 import type { Category, Photo, User } from "./types.ts";
 
 /**

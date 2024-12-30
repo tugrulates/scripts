@@ -1,0 +1,29 @@
+# <%= it.module.name %> ([jsr.io](https://jsr.io/<%= it.module.name %>))
+
+<%- if (it.module.doc) { %>
+<%~ it.module.doc %>
+<%- } -%>
+
+## CLI
+
+Run `<%= it.cli.name %>` after installation,
+or run `deno run -A <%= it.module.name %>` without installation.
+
+### Examples
+
+```sh
+<%- it.cli.examples.forEach(function(example){ %>
+# <%~ example.description %>
+<%~ example.name %><% }) %>
+```
+
+## Exports
+
+<%- it.module.exports.forEach(function(node){ %>
+<%- if (node.name) { %>
+### [`<%~ node.name %>`](https://jsr.io/<%= it.module.name %>/doc/~/<%~ node.name %>)
+
+<%~ node.jsDoc.doc %>
+
+<% } -%>
+<%- }) -%>
