@@ -16,22 +16,22 @@ installation.
 
 ## Functions
 
-### [getData](https://jsr.io/@tugrulates/photos/doc/~/getData)
+### [allPhotos](https://jsr.io/@tugrulates/photos/doc/~/allPhotos)
 
-Returns the data for a photo or a single file.
+Returns a list of all photo directories under cwd.
 
 ### [copyExif](https://jsr.io/@tugrulates/photos/doc/~/copyExif)
 
 Copies the EXIF data from source.jpg to all other jpg files.
 
-### [isPhotoDirectory](https://jsr.io/@tugrulates/photos/doc/~/isPhotoDirectory)
+### [getData](https://jsr.io/@tugrulates/photos/doc/~/getData)
 
-Returns true if the directory contains a source photo.
+Returns the data for a photo or a single file.
 
 ### [getFiles](https://jsr.io/@tugrulates/photos/doc/~/getFiles)
 
 Returns a list of all JPG files in the directory.
 
-### [allPhotos](https://jsr.io/@tugrulates/photos/doc/~/allPhotos)
+### [isPhotoDirectory](https://jsr.io/@tugrulates/photos/doc/~/isPhotoDirectory)
 
-Returns a list of all photo directories under cwd.
+Returns true if the directory contains a source photo.

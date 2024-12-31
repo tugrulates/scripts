@@ -4,13 +4,15 @@ import { basename, resolve } from "@std/path";
 import { join } from "@std/path/join";
 
 interface JSDoc {
-  nodes: {
-    name: string;
-    kind: string;
-    jsDoc: {
-      doc: string;
-    };
-  }[];
+  nodes: JSDocNode[];
+}
+
+interface JSDocNode {
+  name: string;
+  kind: string;
+  jsDoc: {
+    doc: string;
+  };
 }
 
 async function moduleName(path: string): Promise<string> {
@@ -31,7 +33,11 @@ function getExamples(command: Command): Example[] {
   ];
 }
 
-async function getJsdoc(path: string): Promise<JSDoc> {
+async function getJsdoc(path: string): Promise<{
+  module?: JSDocNode;
+  classes: JSDocNode[];
+  functions: JSDocNode[];
+}> {
   const command = new Deno.Command("deno", {
     args: ["doc", "--json", `${path}/mod.ts`],
   });
@@ -40,25 +46,29 @@ async function getJsdoc(path: string): Promise<JSDoc> {
     const error = new TextDecoder().decode(stderr);
     throw new Error(`Cannot parse JSDoc: ${error}`);
   }
-  return JSON.parse(new TextDecoder().decode(stdout)) as JSDoc;
+  const jsdoc = JSON.parse(new TextDecoder().decode(stdout)) as JSDoc;
+  return {
+    module: jsdoc.nodes.find((n) => n.kind == "moduleDoc"),
+    classes: jsdoc.nodes
+      .filter((n) => n.kind == "class")
+      .toSorted((a, b) => a.name.localeCompare(b.name)),
+    functions: jsdoc.nodes
+      .filter((n) => n.kind == "function")
+      .toSorted((a, b) => a.name.localeCompare(b.name)),
+  };
 }
 
 export async function generateReadme(path: string): Promise<string> {
   const name = basename(path);
-  const [jsdoc, command] = await Promise.all([
+  const [jsr, jsdoc, command] = await Promise.all([
+    moduleName(path),
     getJsdoc(path),
-    await getCommand(path),
+    getCommand(path),
   ]);
-  const module = {
-    name: await moduleName(path),
-    doc: jsdoc.nodes.find((n) => n.kind == "moduleDoc")?.jsDoc?.doc,
-    classes: jsdoc.nodes.filter((n) => n.kind === "class") || undefined,
-    functions: jsdoc.nodes.filter((n) => n.kind === "function") || undefined,
-  };
 
   const readme = [
-    `# ${name} ([jsr.io](https://jsr.io/${module.name}))`,
-    module.doc,
+    `# ${name} ([jsr.io](https://jsr.io/${jsr}))`,
+    jsdoc.module?.jsDoc?.doc,
   ];
   if (command) {
     const cli = {
@@ -67,7 +77,7 @@ export async function generateReadme(path: string): Promise<string> {
     };
     readme.push(
       "## CLI",
-      `Run \`${cli.name}\` after installation, or run \`deno run -A ${module.name}\` without installation.`,
+      `Run \`${cli.name}\` after installation, or run \`deno run -A ${jsr}\` without installation.`,
       "### Examples",
       "| Command | Description |",
       "| --- | --- |",
@@ -78,20 +88,20 @@ export async function generateReadme(path: string): Promise<string> {
       ),
     );
   }
-  if (module.classes.length) {
+  if (jsdoc.classes?.length) {
     readme.push("## Classes");
-    for (const c of module.classes) {
+    for (const c of jsdoc.classes) {
       readme.push(
-        `### [${c.name}](https://jsr.io/${module.name}/doc/~/${c.name})`,
+        `### [${c.name}](https://jsr.io/${jsr}/doc/~/${c.name})`,
         c.jsDoc?.doc,
       );
     }
   }
-  if (module.functions.length) {
+  if (jsdoc.functions?.length) {
     readme.push("## Functions");
-    for (const f of module.functions) {
+    for (const f of jsdoc.functions) {
       readme.push(
-        `### [${f.name}](https://jsr.io/${module.name}/doc/~/${f.name})`,
+        `### [${f.name}](https://jsr.io/${jsr}/doc/~/${f.name})`,
         f.jsDoc?.doc,
       );
     }
