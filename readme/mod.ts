@@ -1,10 +1,11 @@
 /**
  * Generate a README.md file for a module.
  *
- * Example:
- * ```ts
- * generateReadme("./readme")
- * ```
+ * Running the module with a list of module paths will generate a README.md
+ * file for each module.
+ *
+ * Alternatively, the `generateReadme` function can be used to generate a
+ * README.md file for a module.
  *
  * @module
  */
