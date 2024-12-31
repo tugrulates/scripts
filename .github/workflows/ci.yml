@@ -22,3 +22,6 @@ jobs:
 
       - name: Build
         run: deno task build
+
+      - name: Readme
+        run: deno task readme && git diff --exit-code || (echo "Run 'deno task readme'." && exit 1)
