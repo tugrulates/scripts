@@ -1,4 +1,4 @@
-# photos [jsr.io](https://jsr.io/@tugrulates/photos)
+# photos ([jsr.io](https://jsr.io/@tugrulates/photos))
 
 ## CLI
 

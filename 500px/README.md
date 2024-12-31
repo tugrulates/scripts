@@ -1,4 +1,4 @@
-# 500px [jsr.io](https://jsr.io/@tugrulates/500px)
+# 500px ([jsr.io](https://jsr.io/@tugrulates/500px))
 
 Test doc.
 

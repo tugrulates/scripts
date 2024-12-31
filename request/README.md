@@ -1,4 +1,4 @@
-# request [jsr.io](https://jsr.io/@tugrulates/request)
+# request ([jsr.io](https://jsr.io/@tugrulates/request))
 
 ## Classes
 

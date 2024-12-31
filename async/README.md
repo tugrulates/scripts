@@ -1,4 +1,4 @@
-# async [jsr.io](https://jsr.io/@tugrulates/async)
+# async ([jsr.io](https://jsr.io/@tugrulates/async))
 
 ## Functions
 

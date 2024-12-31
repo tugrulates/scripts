@@ -1,4 +1,4 @@
-# cli [jsr.io](https://jsr.io/@tugrulates/cli)
+# cli ([jsr.io](https://jsr.io/@tugrulates/cli))
 
 ## Classes
 

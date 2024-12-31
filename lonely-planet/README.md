@@ -1,4 +1,4 @@
-# lonely-planet [jsr.io](https://jsr.io/@tugrulates/lonely-planet)
+# lonely-planet ([jsr.io](https://jsr.io/@tugrulates/lonely-planet))
 
 ## CLI
 

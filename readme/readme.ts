@@ -57,7 +57,7 @@ export async function generateReadme(path: string): Promise<string> {
   };
 
   const readme = [
-    `# ${name} [jsr.io](https://jsr.io/${module.name})`,
+    `# ${name} ([jsr.io](https://jsr.io/${module.name}))`,
     module.doc,
   ];
   if (command) {

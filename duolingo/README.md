@@ -1,4 +1,4 @@
-# duolingo [jsr.io](https://jsr.io/@tugrulates/duolingo)
+# duolingo ([jsr.io](https://jsr.io/@tugrulates/duolingo))
 
 ## CLI
 
