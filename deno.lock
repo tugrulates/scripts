@@ -12,8 +12,6 @@
     "jsr:@david/dax@0.42": "0.42.0",
     "jsr:@david/path@0.2": "0.2.0",
     "jsr:@david/which@~0.4.1": "0.4.1",
-    "jsr:@eta-dev/eta@*": "3.5.0",
-    "jsr:@eta-dev/eta@^3.5.0": "3.5.0",
     "jsr:@std/assert@*": "1.0.10",
     "jsr:@std/assert@0.221": "0.221.0",
     "jsr:@std/assert@~1.0.6": "1.0.10",
@@ -112,9 +110,6 @@
     },
     "@david/which@0.4.1": {
       "integrity": "896a682b111f92ab866cc70c5b4afab2f5899d2f9bde31ed00203b9c250f225e"
-    },
-    "@eta-dev/eta@3.5.0": {
-      "integrity": "6b70827efc14c7cbf08498ac7a922ecab003641caf3852a6cb5b1b12ee58fb37"
     },
     "@std/assert@0.221.0": {
       "integrity": "a5f1aa6e7909dbea271754fd4ab3f4e687aeff4873b4cef9a320af813adb489a"
@@ -221,7 +216,6 @@
       "jsr:@cliffy/prompt@1.0.0-rc.7",
       "jsr:@cliffy/table@1.0.0-rc.7",
       "jsr:@david/dax@0.42",
-      "jsr:@eta-dev/eta@^3.5.0",
       "jsr:@std/async@^1.0.9",
       "jsr:@std/fs@^1.0.8",
       "jsr:@std/path@^1.0.8",

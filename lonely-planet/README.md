@@ -1,4 +1,4 @@
-# lonely-planet ([jsr.io](https://jsr.io/@tugrulates/lonely-planet))
+# lonely-planet [jsr.io](https://jsr.io/@tugrulates/lonely-planet)
 
 ## CLI
 
@@ -7,39 +7,17 @@ Run `lonely-planet` after installation, or run
 
 ### Examples
 
-Search destinations for 'big sur'.
-
-```sh
-lonely-planet big sur
-```
-
-Search attractions.
-
-```sh
-lonely-planet --attractions amsterdam
-```
-
-Search stories.
-
-```sh
-lonely-planet --stories amsterdam
-```
-
-All.
-
-```sh
-lonely-planet --destinations --attractions --stories
-```
-
-Stream destinations as json.
-
-```sh
-lonely-planet --json | jq
-```
+| Command                                                | Description                        |
+| ------------------------------------------------------ | ---------------------------------- |
+| `lonely-planet big sur`                                | Search destinations for 'big sur'. |
+| `lonely-planet --attractions amsterdam`                | Search attractions.                |
+| `lonely-planet --stories amsterdam`                    | Search stories.                    |
+| `lonely-planet --destinations --attractions --stories` | All.                               |
+| `lonely-planet --json \| jq`                           | Stream destinations as json.       |
 
 ## Classes
 
-### [`LonelyPlanetClient`](https://jsr.io/@tugrulates/lonely-planet/doc/~/LonelyPlanetClient)
+### [LonelyPlanetClient](https://jsr.io/@tugrulates/lonely-planet/doc/~/LonelyPlanetClient)
 
 Client for interacting with the Lonely Planet API.
 

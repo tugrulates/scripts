@@ -1,4 +1,4 @@
-# 500px ([jsr.io](https://jsr.io/@tugrulates/500px))
+# 500px [jsr.io](https://jsr.io/@tugrulates/500px)
 
 Test doc.
 
@@ -9,93 +9,26 @@ installation.
 
 ### Examples
 
-Prints a list of users with high scored photos.
-
-```sh
-500px discover
-```
-
-Finds food photographers.
-
-```sh
-500px discover --filter food
-```
-
-Either category.
-
-```sh
-500px discover --filter macro --filter animals
-```
-
-Query users as JSON.
-
-```sh
-500px discover --json | jq
-```
-
-Prints follow counts.
-
-```sh
-500px follows
-```
-
-Follow users who follow.
-
-```sh
-500px follows --follows
-```
-
-Unfollow users who dont' follow.
-
-```sh
-500px follows --unfollow
-```
-
-Matches both lists.
-
-```sh
-500px follows --follow --unfollow
-```
-
-Outputs JSON of follower information.
-
-```sh
-500px follows --json
-```
-
-Query JSON for follower information.
-
-```sh
-500px follows --json | jq
-```
-
-List users who are followed but don't follow back.
-
-```sh
-500px follows --json | jq '.dontFollowBack[].username'
-```
-
-List users who follow but are not followed back.
-
-```sh
-500px follows --json | jq '.notFollowingBack[].username'
-```
-
-Prints the list of photos for a user.
-
-```sh
-500px photos <username>
-```
-
-Query photos as JSON.
-
-```sh
-500px photos <username> --json | jq
-```
+| Command                                                     | Description                                        |
+| ----------------------------------------------------------- | -------------------------------------------------- |
+| `500px discover`                                            | Prints a list of users with high scored photos.    |
+| `500px discover --filter food`                              | Finds food photographers.                          |
+| `500px discover --filter macro --filter animals`            | Either category.                                   |
+| `500px discover --json \| jq`                               | Query users as JSON.                               |
+| `500px follows`                                             | Prints follow counts.                              |
+| `500px follows --follows`                                   | Follow users who follow.                           |
+| `500px follows --unfollow`                                  | Unfollow users who dont' follow.                   |
+| `500px follows --follow --unfollow`                         | Matches both lists.                                |
+| `500px follows --json`                                      | Outputs JSON of follower information.              |
+| `500px follows --json \| jq`                                | Query JSON for follower information.               |
+| `500px follows --json \| jq '.dontFollowBack[].username'`   | List users who are followed but don't follow back. |
+| `500px follows --json \| jq '.notFollowingBack[].username'` | List users who follow but are not followed back.   |
+| `500px photos <username>`                                   | Prints the list of photos for a user.              |
+| `500px photos <username> --json \| jq`                      | Query photos as JSON.                              |
 
 ## Classes
 
-### [`FiveHundredPxClient`](https://jsr.io/@tugrulates/500px/doc/~/FiveHundredPxClient)
+### [FiveHundredPxClient](https://jsr.io/@tugrulates/500px/doc/~/FiveHundredPxClient)
 
 Client for interacting with the 500px GraphQL API.
 

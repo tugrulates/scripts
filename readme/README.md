@@ -1,4 +1,4 @@
-# readme ([jsr.io](https://jsr.io/@tugrulates/readme))
+# readme [jsr.io](https://jsr.io/@tugrulates/readme)
 
 Generate a README.md file for a module.
 
@@ -10,4 +10,4 @@ generateReadme("./readme");
 
 ## Functions
 
-### [`generateReadme`](https://jsr.io/@tugrulates/readme/doc/~/generateReadme)
+### [generateReadme](https://jsr.io/@tugrulates/readme/doc/~/generateReadme)

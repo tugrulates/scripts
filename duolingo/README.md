@@ -1,4 +1,4 @@
-# duolingo ([jsr.io](https://jsr.io/@tugrulates/duolingo))
+# duolingo [jsr.io](https://jsr.io/@tugrulates/duolingo)
 
 ## CLI
 
@@ -7,105 +7,28 @@ without installation.
 
 ### Examples
 
-Configure.
-
-```sh
-duolingo --username <username> --token <token>
-```
-
-Clear the cached configuration.
-
-```sh
-duolingo --clear
-```
-
-Prints the feed.
-
-```sh
-duolingo feed
-```
-
-Engages with the feed.
-
-```sh
-duolingo feed --engage
-```
-
-Query JSON over the feed.
-
-```sh
-duolingo feed --json | jq
-```
-
-Prints follow counts.
-
-```sh
-duolingo follows
-```
-
-Follow users who follow.
-
-```sh
-duolingo follows --follows
-```
-
-Unfollow users who dont' follow.
-
-```sh
-duolingo follows --unfollow
-```
-
-Matches both lists.
-
-```sh
-duolingo follows --follow --unfollow
-```
-
-Outputs JSON of follower information.
-
-```sh
-duolingo follows --json
-```
-
-Query JSON for follower information.
-
-```sh
-duolingo follows --json | jq
-```
-
-List users who are followed but don't follow back.
-
-```sh
-duolingo follows --json | jq '.dontFollowBack[].username'
-```
-
-List users who follow but are not followed back.
-
-```sh
-duolingo follows --json | jq '.notFollowingBack[].username'
-```
-
-Prints the league.
-
-```sh
-duolingo league
-```
-
-Follows users in the league.
-
-```sh
-duolingo league --follow
-```
-
-Query JSON over the league.
-
-```sh
-duolingo league --json | jq
-```
+| Command                                                        | Description                                        |
+| -------------------------------------------------------------- | -------------------------------------------------- |
+| `duolingo --username <username> --token <token>`               | Configure.                                         |
+| `duolingo --clear`                                             | Clear the cached configuration.                    |
+| `duolingo feed`                                                | Prints the feed.                                   |
+| `duolingo feed --engage`                                       | Engages with the feed.                             |
+| `duolingo feed --json \| jq`                                   | Query JSON over the feed.                          |
+| `duolingo follows`                                             | Prints follow counts.                              |
+| `duolingo follows --follows`                                   | Follow users who follow.                           |
+| `duolingo follows --unfollow`                                  | Unfollow users who dont' follow.                   |
+| `duolingo follows --follow --unfollow`                         | Matches both lists.                                |
+| `duolingo follows --json`                                      | Outputs JSON of follower information.              |
+| `duolingo follows --json \| jq`                                | Query JSON for follower information.               |
+| `duolingo follows --json \| jq '.dontFollowBack[].username'`   | List users who are followed but don't follow back. |
+| `duolingo follows --json \| jq '.notFollowingBack[].username'` | List users who follow but are not followed back.   |
+| `duolingo league`                                              | Prints the league.                                 |
+| `duolingo league --follow`                                     | Follows users in the league.                       |
+| `duolingo league --json \| jq`                                 | Query JSON over the league.                        |
 
 ## Classes
 
-### [`DuolingoClient`](https://jsr.io/@tugrulates/duolingo/doc/~/DuolingoClient)
+### [DuolingoClient](https://jsr.io/@tugrulates/duolingo/doc/~/DuolingoClient)
 
 A client for interacting with the Duolingo API.
 
