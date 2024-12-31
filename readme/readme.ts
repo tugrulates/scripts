@@ -5,6 +5,8 @@ import { resolve } from "@std/path";
 import { join } from "@std/path/join";
 import { Eta } from "jsr:@eta-dev/eta";
 
+const DOCUMENTED_KINDS = ["class", "function"];
+
 interface JSDoc {
   nodes: {
     name: string;
@@ -46,8 +48,8 @@ export async function generateReadme(module: string): Promise<string> {
   return eta.render("./readme", {
     module: {
       name: await moduleName(module),
-      doc: jsdoc.nodes.find((n) => n.kind == "moduleDoc")?.jsDoc.doc,
-      exports: jsdoc.nodes,
+      doc: jsdoc.nodes.find((n) => n.kind == "moduleDoc")?.jsDoc?.doc,
+      exports: jsdoc.nodes.filter((n) => DOCUMENTED_KINDS.includes(n.kind)),
     },
     cli: command && {
       name: command.getName(),

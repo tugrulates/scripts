@@ -1,4 +1,6 @@
 import { Command } from "@cliffy/command";
+import $ from "@david/dax";
+import { join } from "@std/path";
 import { generateReadme } from "./readme.ts";
 
 export function getCommand() {
@@ -6,8 +8,15 @@ export function getCommand() {
     .name("readme")
     .description("Generate markdown readme for a module.")
     .example("readme ./readme", "Generate readme for the `readme` module.")
-    .arguments("<module:string>")
-    .action(async (_, module) => console.log(await generateReadme(module)));
+    .arguments("[modules...:string]")
+    .action(async (_, ...modules) =>
+      await Promise.all(modules.map(async (module) => {
+        const readme = await generateReadme(module);
+        const file = join(module, "README.md");
+        await Deno.writeTextFile(file, readme);
+        await $`deno fmt -q ${file}`;
+      }))
+    );
 }
 
 export async function main(): Promise<void> {

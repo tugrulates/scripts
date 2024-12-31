@@ -1,7 +1,7 @@
 /**
-Test doc
-
-@module
+ * Test doc.
+ *
+ * @module
  */
 
 import { main } from "./cli.ts";

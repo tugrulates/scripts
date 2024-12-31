@@ -15,6 +15,7 @@
       "command": "mkdir -p $HOME/.local/bin && cp dist/* $HOME/.local/bin",
       "dependencies": ["build"]
     },
+    "readme": "ls -1 */**/deno.json | xargs dirname | xargs deno -A ./readme/mod.ts",
     "test": "deno test -RWE --unstable-kv --doc */*.ts",
     "ok": "deno fmt -q --check && deno lint -q && deno check -q **/*.ts && test -q"
   },

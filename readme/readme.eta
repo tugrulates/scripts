@@ -4,6 +4,7 @@
 <%~ it.module.doc %>
 <%- } -%>
 
+<%- if (it.cli) { %>
 ## CLI
 
 Run `<%= it.cli.name %>` after installation,
@@ -11,19 +12,22 @@ or run `deno run -A <%= it.module.name %>` without installation.
 
 ### Examples
 
-```sh
 <%- it.cli.examples.forEach(function(example){ %>
-# <%~ example.description %>
-<%~ example.name %><% }) %>
-```
+<%~ example.description %>
+```sh
+<%~ example.name %>
+```<% }) %>
+<%- } -%>
 
 ## Exports
 
 <%- it.module.exports.forEach(function(node){ %>
 <%- if (node.name) { %>
-### [`<%~ node.name %>`](https://jsr.io/<%= it.module.name %>/doc/~/<%~ node.name %>)
+### [`<%~ node.name %>`](https://jsr.io/<%= it.module.name %>/doc/~/<%~ node.name %>) (<%~ node.kind %>)
 
+<%- if (node.jsDoc) { %>
 <%~ node.jsDoc.doc %>
+<%- } -%>
 
 <% } -%>
 <%- }) -%>
