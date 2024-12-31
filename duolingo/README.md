@@ -1,4 +1,4 @@
-# @tugrulates/duolingo ([jsr.io](https://jsr.io/@tugrulates/duolingo))
+# duolingo ([jsr.io](https://jsr.io/@tugrulates/duolingo))
 
 ## CLI
 
@@ -103,9 +103,9 @@ Query JSON over the league.
 duolingo league --json | jq
 ```
 
-## Exports
+## Classes
 
-### [`DuolingoClient`](https://jsr.io/@tugrulates/duolingo/doc/~/DuolingoClient) (class)
+### [`DuolingoClient`](https://jsr.io/@tugrulates/duolingo/doc/~/DuolingoClient)
 
 A client for interacting with the Duolingo API.
 

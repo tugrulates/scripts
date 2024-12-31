@@ -1,8 +1,8 @@
-# @tugrulates/cli ([jsr.io](https://jsr.io/@tugrulates/cli))
+# cli ([jsr.io](https://jsr.io/@tugrulates/cli))
 
-## Exports
+## Classes
 
-### [`Config`](https://jsr.io/@tugrulates/cli/doc/~/Config) (class)
+### [`Config`](https://jsr.io/@tugrulates/cli/doc/~/Config)
 
 A string configuration option for CLI.
 

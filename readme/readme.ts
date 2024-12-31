@@ -1,11 +1,8 @@
 import type { Command, Example } from "@cliffy/command";
-import $ from "@david/dax";
 import { exists } from "@std/fs";
-import { resolve } from "@std/path";
+import { basename, resolve } from "@std/path";
 import { join } from "@std/path/join";
 import { Eta } from "jsr:@eta-dev/eta";
-
-const DOCUMENTED_KINDS = ["class", "function"];
 
 interface JSDoc {
   nodes: {
@@ -36,20 +33,32 @@ function getExamples(command: Command): Example[] {
 }
 
 async function getJsdoc(module: string): Promise<JSDoc> {
-  return JSON.parse(
-    await $`deno doc --json ${module}/mod.ts`.text(),
-  ) as JSDoc;
+  const command = new Deno.Command("deno", {
+    args: ["doc", "--json", `${module}/mod.ts`],
+  });
+  const { code, stdout, stderr } = await command.output();
+  if (code !== 0) {
+    const error = new TextDecoder().decode(stderr);
+    throw new Error(`Cannot parse JSDoc: ${error}`);
+  }
+  return JSON.parse(new TextDecoder().decode(stdout)) as JSDoc;
 }
 
 export async function generateReadme(module: string): Promise<string> {
-  const eta = new Eta({ views: import.meta.dirname, autoTrim: false });
+  const eta = new Eta({
+    views: import.meta.dirname,
+    useWith: true,
+    autoTrim: false,
+  });
   const jsdoc = await getJsdoc(module);
   const command = await getCommand(module);
   return eta.render("./readme", {
+    name: basename(module),
     module: {
       name: await moduleName(module),
       doc: jsdoc.nodes.find((n) => n.kind == "moduleDoc")?.jsDoc?.doc,
-      exports: jsdoc.nodes.filter((n) => DOCUMENTED_KINDS.includes(n.kind)),
+      classes: jsdoc.nodes.filter((n) => n.kind === "class") || undefined,
+      functions: jsdoc.nodes.filter((n) => n.kind === "function") || undefined,
     },
     cli: command && {
       name: command.getName(),

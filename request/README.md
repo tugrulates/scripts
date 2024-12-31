@@ -1,15 +1,15 @@
-# @tugrulates/request ([jsr.io](https://jsr.io/@tugrulates/request))
+# request ([jsr.io](https://jsr.io/@tugrulates/request))
 
-## Exports
+## Classes
 
-### [`GraphQLClient`](https://jsr.io/@tugrulates/request/doc/~/GraphQLClient) (class)
+### [`GraphQLClient`](https://jsr.io/@tugrulates/request/doc/~/GraphQLClient)
 
 A GraphQL client for making queries and handling pagination.
 
-### [`RequestError`](https://jsr.io/@tugrulates/request/doc/~/RequestError) (class)
+### [`RequestError`](https://jsr.io/@tugrulates/request/doc/~/RequestError)
 
 Represents an error that occurs during a request.
 
-### [`JsonClient`](https://jsr.io/@tugrulates/request/doc/~/JsonClient) (class)
+### [`JsonClient`](https://jsr.io/@tugrulates/request/doc/~/JsonClient)
 
 A client for making JSON-based HTTP requests.

@@ -1,33 +1,39 @@
-# <%= it.module.name %> ([jsr.io](https://jsr.io/<%= it.module.name %>))
+# <%= name %> ([jsr.io](https://jsr.io/<%= module.name %>))
 
-<%- if (it.module.doc) { %>
-<%~ it.module.doc %>
-<%- } -%>
+<% if (module.doc) { %><%~ module.doc %><% } -%>
 
-<%- if (it.cli) { %>
+<% if (cli) { %>
 ## CLI
 
-Run `<%= it.cli.name %>` after installation,
-or run `deno run -A <%= it.module.name %>` without installation.
+Run `<%= cli.name %>` after installation,
+or run `deno run -A <%= module.name %>` without installation.
 
 ### Examples
 
-<%- it.cli.examples.forEach(function(example){ %>
+<% cli.examples.forEach(function(example) { %>
 <%~ example.description %>
 ```sh
 <%~ example.name %>
-```<% }) %>
-<%- } -%>
+```
+<% }) %>
+<% } %>
 
-## Exports
+<% if (module.classes.length) { %>
+## Classes
+<% module.classes.forEach(function(node) { %>
+<% if (node.name) { %>
+### [`<%~ node.name %>`](https://jsr.io/<%= module.name %>/doc/~/<%~ node.name %>)
+<% if (node.jsDoc) { %><%~ node.jsDoc.doc %><% } %>
+<% } %>
+<% }) %>
+<% } %>
 
-<%- it.module.exports.forEach(function(node){ %>
-<%- if (node.name) { %>
-### [`<%~ node.name %>`](https://jsr.io/<%= it.module.name %>/doc/~/<%~ node.name %>) (<%~ node.kind %>)
-
-<%- if (node.jsDoc) { %>
-<%~ node.jsDoc.doc %>
-<%- } -%>
-
-<% } -%>
-<%- }) -%>
+<% if (module.functions.length) { %>
+## Functions
+<% module.functions.forEach(function(node) { %>
+<% if (node.name) { %>
+### [`<%~ node.name %>`](https://jsr.io/<%= module.name %>/doc/~/<%~ node.name %>)
+<% if (node.jsDoc) { %><%~ node.jsDoc.doc %><% } %>
+<% } %>
+<% }) %>
+<% } %>

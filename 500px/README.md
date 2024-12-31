@@ -1,4 +1,4 @@
-# @tugrulates/500px ([jsr.io](https://jsr.io/@tugrulates/500px))
+# 500px ([jsr.io](https://jsr.io/@tugrulates/500px))
 
 Test doc.
 
@@ -93,9 +93,9 @@ Query photos as JSON.
 500px photos <username> --json | jq
 ```
 
-## Exports
+## Classes
 
-### [`FiveHundredPxClient`](https://jsr.io/@tugrulates/500px/doc/~/FiveHundredPxClient) (class)
+### [`FiveHundredPxClient`](https://jsr.io/@tugrulates/500px/doc/~/FiveHundredPxClient)
 
 Client for interacting with the 500px GraphQL API.
 

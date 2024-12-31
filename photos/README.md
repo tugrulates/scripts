@@ -1,4 +1,4 @@
-# @tugrulates/photos ([jsr.io](https://jsr.io/@tugrulates/photos))
+# photos ([jsr.io](https://jsr.io/@tugrulates/photos))
 
 ## CLI
 
@@ -31,24 +31,24 @@ Copy EXIF data to all sizes.
 photos [directory] --copy
 ```
 
-## Exports
+## Functions
 
-### [`getData`](https://jsr.io/@tugrulates/photos/doc/~/getData) (function)
+### [`getData`](https://jsr.io/@tugrulates/photos/doc/~/getData)
 
 Returns the data for a photo or a single file.
 
-### [`copyExif`](https://jsr.io/@tugrulates/photos/doc/~/copyExif) (function)
+### [`copyExif`](https://jsr.io/@tugrulates/photos/doc/~/copyExif)
 
 Copies the EXIF data from source.jpg to all other jpg files.
 
-### [`isPhotoDirectory`](https://jsr.io/@tugrulates/photos/doc/~/isPhotoDirectory) (function)
+### [`isPhotoDirectory`](https://jsr.io/@tugrulates/photos/doc/~/isPhotoDirectory)
 
 Returns true if the directory contains a source photo.
 
-### [`getFiles`](https://jsr.io/@tugrulates/photos/doc/~/getFiles) (function)
+### [`getFiles`](https://jsr.io/@tugrulates/photos/doc/~/getFiles)
 
 Returns a list of all JPG files in the directory.
 
-### [`allPhotos`](https://jsr.io/@tugrulates/photos/doc/~/allPhotos) (function)
+### [`allPhotos`](https://jsr.io/@tugrulates/photos/doc/~/allPhotos)
 
 Returns a list of all photo directories under cwd.

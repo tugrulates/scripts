@@ -1,4 +1,4 @@
-# @tugrulates/lonely-planet ([jsr.io](https://jsr.io/@tugrulates/lonely-planet))
+# lonely-planet ([jsr.io](https://jsr.io/@tugrulates/lonely-planet))
 
 ## CLI
 
@@ -37,9 +37,9 @@ Stream destinations as json.
 lonely-planet --json | jq
 ```
 
-## Exports
+## Classes
 
-### [`LonelyPlanetClient`](https://jsr.io/@tugrulates/lonely-planet/doc/~/LonelyPlanetClient) (class)
+### [`LonelyPlanetClient`](https://jsr.io/@tugrulates/lonely-planet/doc/~/LonelyPlanetClient)
 
 Client for interacting with the Lonely Planet API.
 
