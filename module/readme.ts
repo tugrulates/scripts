@@ -2,6 +2,7 @@ import type { Command, Example } from "@cliffy/command";
 import { exists } from "@std/fs";
 import { basename, resolve } from "@std/path";
 import { join } from "@std/path/join";
+import { $ } from "jsr:@david/dax";
 
 interface Config {
   name: string;
@@ -65,6 +66,15 @@ async function getJsdoc(path: string, config: Config): Promise<{
   };
 }
 
+/**
+ * Generate a README.md file for a module.
+ *
+ * Alternatively, running this file with `deno run` can be used to generate
+ * README.md files for a list of module.
+ *
+ * @param path The path to the module.
+ * @returns The README.md file content.
+ */
 export async function generateReadme(path: string): Promise<string> {
   const name = basename(path);
   const [config, command] = await Promise.all([
@@ -115,4 +125,13 @@ export async function generateReadme(path: string): Promise<string> {
   }
 
   return readme.join("\n");
+}
+
+if (import.meta.main) {
+  await Promise.all(Deno.args.map(async (module) => {
+    const readme = await generateReadme(module);
+    const file = join(module, "README.md");
+    await Deno.writeTextFile(file, readme);
+    await $`deno fmt -q ${file}`;
+  }));
 }
