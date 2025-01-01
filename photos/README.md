@@ -1,22 +1,37 @@
-# photos
+# photos ([jsr.io](https://jsr.io/@tugrulates/photos))
 
-```
-Usage: photos [photos...]
+## CLI
 
-Description:
+Run `photos` after installation, or run `deno run -A @tugrulates/photos` without
+installation.
 
-  Manage photos.
+### Examples
 
-Options:
+| Command                     | Description                                   |
+| --------------------------- | --------------------------------------------- |
+| `photos`                    | Lists for all photos under current directory. |
+| `photos [directory] --json` | Data for a photo with all sizes.              |
+| `photos [file.jpg] --json`  | Data for a single size file.                  |
+| `photos [directory] --copy` | Copy EXIF data to all sizes.                  |
 
-  -h, --help  - Show this help.
-  --copy      - Copy the EXIF from source jpg file to other jpg files.
-  --json      - Output the EXIF information as JSON.
+## Functions
 
-Examples:
+### [allPhotos](https://jsr.io/@tugrulates/photos/doc/~/allPhotos)
 
-  photos                    Lists for all photos under current directory.
-  photos [directory] --json Data for a photo with all sizes.
-  photos [file.jpg] --json  Data for a single size file.
-  photos [directory] --copy Copy EXIF data to all sizes.
-```
+Returns a list of all photo directories under cwd.
+
+### [copyExif](https://jsr.io/@tugrulates/photos/doc/~/copyExif)
+
+Copies the EXIF data from source.jpg to all other jpg files.
+
+### [getData](https://jsr.io/@tugrulates/photos/doc/~/getData)
+
+Returns the data for a photo or a single file.
+
+### [getFiles](https://jsr.io/@tugrulates/photos/doc/~/getFiles)
+
+Returns a list of all JPG files in the directory.
+
+### [isPhotoDirectory](https://jsr.io/@tugrulates/photos/doc/~/isPhotoDirectory)
+
+Returns true if the directory contains a source photo.

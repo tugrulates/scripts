@@ -1,7 +1,7 @@
 import { Command } from "@cliffy/command";
 import { Table } from "@cliffy/table";
-import { pool } from "../common/async.ts";
-import { Config } from "../common/cli.ts";
+import { pool } from "@tugrulates/internal/async";
+import { Config } from "@tugrulates/internal/cli";
 import { DuolingoClient } from "./client.ts";
 import { LANGUAGES, LEAGUES, REACTIONS } from "./data.ts";
 import type {

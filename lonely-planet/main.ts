@@ -1,6 +1,6 @@
 import { Command } from "@cliffy/command";
 import { Table } from "@cliffy/table";
-import { Config } from "../common/cli.ts";
+import { Config } from "@tugrulates/internal/cli";
 import { LonelyPlanetClient } from "./client.ts";
 import { EMOJIS } from "./data.ts";
 import type { Attraction, Destination } from "./types.ts";
