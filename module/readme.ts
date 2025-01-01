@@ -1,8 +1,8 @@
 import type { Command, Example } from "@cliffy/command";
+import $ from "@david/dax";
 import { exists } from "@std/fs";
 import { basename, resolve } from "@std/path";
 import { join } from "@std/path/join";
-import { $ } from "jsr:@david/dax";
 
 interface Config {
   name: string;
@@ -85,6 +85,7 @@ export async function generateReadme(path: string): Promise<string> {
 
   const readme = [
     `# ${name} ([jsr.io](https://jsr.io/${config.name}))`,
+    "",
     jsdoc.module?.jsDoc?.doc,
   ];
   if (command) {
@@ -94,31 +95,37 @@ export async function generateReadme(path: string): Promise<string> {
     };
     readme.push(
       "## CLI",
+      "",
       `Run \`${cli.name}\` after installation, or run \`deno run -A ${config.name}\` without installation.`,
+      "",
       "### Examples",
+      "",
       "| Command | Description |",
-      "| --- | --- |",
+      "| ------- | ----------- |",
       ...cli.examples.map((e) =>
         `| \`${e.name.replace("|", "\\|")}\` | ${
           e.description.replace("|", "\\|")
         } |`
       ),
+      "",
     );
   }
   if (jsdoc.classes?.length) {
-    readme.push("## Classes");
+    readme.push("## Classes", "");
     for (const c of jsdoc.classes) {
       readme.push(
         `### [${c.name}](https://jsr.io/${config.name}/doc/~/${c.name})`,
+        "",
         c.jsDoc?.doc,
       );
     }
   }
   if (jsdoc.functions?.length) {
-    readme.push("## Functions");
+    readme.push("## Functions", "");
     for (const f of jsdoc.functions) {
       readme.push(
         `### [${f.name}](https://jsr.io/${config.name}/doc/~/${f.name})`,
+        "",
         f.jsDoc?.doc,
       );
     }

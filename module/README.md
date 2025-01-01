@@ -8,8 +8,5 @@ Utilities for managing the modules in this repository.
 
 Generate a README.md file for a module.
 
-Running the module with a list of module paths will generate a README.md file
-for each module.
-
-Alternatively, the `generateReadme` function can be used to generate a README.md
-file for a module.
+Alternatively, running this file with `deno run` can be used to generate
+README.md files for a list of module.
