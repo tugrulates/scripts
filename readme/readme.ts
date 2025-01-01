@@ -3,6 +3,11 @@ import { exists } from "@std/fs";
 import { basename, resolve } from "@std/path";
 import { join } from "@std/path/join";
 
+interface Config {
+  name: string;
+  exports: string;
+}
+
 interface JSDoc {
   nodes: JSDocNode[];
 }
@@ -15,8 +20,8 @@ interface JSDocNode {
   };
 }
 
-async function moduleName(path: string): Promise<string> {
-  return JSON.parse(await Deno.readTextFile(join(path, "deno.json"))).name;
+async function getModuleConfig(path: string): Promise<Config> {
+  return JSON.parse(await Deno.readTextFile(join(path, "deno.json")));
 }
 
 async function getCommand(path: string): Promise<Command | null> {
@@ -33,13 +38,15 @@ function getExamples(command: Command): Example[] {
   ];
 }
 
-async function getJsdoc(path: string): Promise<{
+async function getJsdoc(path: string, config: Config): Promise<{
   module?: JSDocNode;
   classes: JSDocNode[];
   functions: JSDocNode[];
 }> {
+  // Deno.command instead of dax
+  // see https://github.com/dsherret/dax/issues/297
   const command = new Deno.Command("deno", {
-    args: ["doc", "--json", `${path}/mod.ts`],
+    args: ["doc", "--json", join(path, config.exports)],
   });
   const { code, stdout, stderr } = await command.output();
   if (code !== 0) {
@@ -60,14 +67,14 @@ async function getJsdoc(path: string): Promise<{
 
 export async function generateReadme(path: string): Promise<string> {
   const name = basename(path);
-  const [jsr, jsdoc, command] = await Promise.all([
-    moduleName(path),
-    getJsdoc(path),
+  const [config, command] = await Promise.all([
+    getModuleConfig(path),
     getCommand(path),
   ]);
+  const jsdoc = await getJsdoc(path, config);
 
   const readme = [
-    `# ${name} ([jsr.io](https://jsr.io/${jsr}))`,
+    `# ${name} ([jsr.io](https://jsr.io/${config.name}))`,
     jsdoc.module?.jsDoc?.doc,
   ];
   if (command) {
@@ -77,7 +84,7 @@ export async function generateReadme(path: string): Promise<string> {
     };
     readme.push(
       "## CLI",
-      `Run \`${cli.name}\` after installation, or run \`deno run -A ${jsr}\` without installation.`,
+      `Run \`${cli.name}\` after installation, or run \`deno run -A ${config.name}\` without installation.`,
       "### Examples",
       "| Command | Description |",
       "| --- | --- |",
@@ -92,7 +99,7 @@ export async function generateReadme(path: string): Promise<string> {
     readme.push("## Classes");
     for (const c of jsdoc.classes) {
       readme.push(
-        `### [${c.name}](https://jsr.io/${jsr}/doc/~/${c.name})`,
+        `### [${c.name}](https://jsr.io/${config.name}/doc/~/${c.name})`,
         c.jsDoc?.doc,
       );
     }
@@ -101,7 +108,7 @@ export async function generateReadme(path: string): Promise<string> {
     readme.push("## Functions");
     for (const f of jsdoc.functions) {
       readme.push(
-        `### [${f.name}](https://jsr.io/${jsr}/doc/~/${f.name})`,
+        `### [${f.name}](https://jsr.io/${config.name}/doc/~/${f.name})`,
         f.jsDoc?.doc,
       );
     }

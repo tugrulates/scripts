@@ -1,5 +1,5 @@
 {
   "name": "@tugrulates/readme",
   "version": "0.1.0",
-  "exports": "./readme.ts"
+  "exports": "./mod.ts"
 }
