@@ -1,4 +1,4 @@
-import { main } from "./cli.ts";
+import { main } from "./main.ts";
 export * from "./exif.ts";
 export * from "./file.ts";
 

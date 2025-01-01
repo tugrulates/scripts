@@ -6,7 +6,7 @@ import { join } from "@std/path/join";
 
 interface Config {
   name: string;
-  exports: string;
+  exports: string | Record<string, string>;
 }
 
 interface JSDoc {
@@ -25,8 +25,13 @@ async function getModuleConfig(path: string): Promise<Config> {
   return JSON.parse(await Deno.readTextFile(join(path, "deno.json")));
 }
 
+function getExports(path: string, config: Config): string[] {
+  if (typeof config.exports === "string") return [join(path, config.exports)];
+  return Object.values(config.exports).map((e) => join(path, e));
+}
+
 async function getCommand(path: string): Promise<Command | null> {
-  const entrypoint = resolve(path, "cli.ts");
+  const entrypoint = resolve(path, "main.ts");
   if (!await exists(entrypoint)) return null;
   const cli = await import(entrypoint);
   return cli.getCommand() as Command;
@@ -47,7 +52,7 @@ async function getJsdoc(path: string, config: Config): Promise<{
   // Deno.command instead of dax
   // see https://github.com/dsherret/dax/issues/297
   const command = new Deno.Command("deno", {
-    args: ["doc", "--json", join(path, config.exports)],
+    args: ["doc", "--json", ...getExports(path, config)],
   });
   const { code, stdout, stderr } = await command.output();
   if (code !== 0) {

@@ -1,4 +1,4 @@
-import { JsonClient } from "@tugrulates/request";
+import { JsonClient } from "@tugrulates/internal/request";
 import type { FeedCard, Friend, League, Reaction } from "./types.ts";
 
 /**

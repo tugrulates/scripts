@@ -1,13 +1,10 @@
 {
   "workspace": [
     "./500px",
-    "./async",
-    "./cli",
     "./duolingo",
+    "./internal",
     "./lonely-planet",
-    "./module",
-    "./photos",
-    "./request"
+    "./photos"
   ],
   "tasks": {
     "build": "deno task --recursive compile",
@@ -15,7 +12,7 @@
       "command": "mkdir -p $HOME/.local/bin && cp dist/* $HOME/.local/bin",
       "dependencies": ["build"]
     },
-    "readme": "ls -1 */**/deno.json | xargs dirname | xargs deno -A ./module/readme.ts",
+    "readme": "ls -1 */**/deno.json | xargs dirname | xargs deno -A ./internal/readme.ts",
     "test": "deno test -RWE --unstable-kv --doc */*.ts",
     "ok": "deno fmt -q --check && deno lint -q && deno check -q **/*.ts && test -q"
   },
